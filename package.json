@@ -1,0 +1,25 @@
+{
+  "name": "se2-fed2-meratr-saraal",
+  "version": "1.0.0",
+  "description": "This repo is for my Noroff semester project 2. FED2",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ReZvanYY/SE2-FED2-MeratR-SaraAl.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ReZvanYY/SE2-FED2-MeratR-SaraAl/issues"
+  },
+  "homepage": "https://github.com/ReZvanYY/SE2-FED2-MeratR-SaraAl#readme",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.17",
+    "tailwindcss": "^4.1.17"
+  }
+}
