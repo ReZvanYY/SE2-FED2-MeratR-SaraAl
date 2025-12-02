@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- link to the poppins font found from Google Fonts. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet" />
+
+      <!-- Meta descriptions. -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Sign up for Bidsmart, the smart auction platform for consumers and businesses. Create your account to buy, sell, and bid on a wide range of products with ease and confidence." />
+    <meta name="keywords" content="bidsmart, auction website, online auctions, business auctions, consumer auctions, bid online, buy and sell, auction marketplace, register account, signup page" />
+    <meta name="author" content="Bidsmart AS" />
+
+    <!-- link to the output file for tailwind css -->
+    <link rel="stylesheet" href="../src/output.css" />
+
+    <!-- page title -->
+    <title>SIGN IN</title>
+
+  </head>
+  <body class="bg-[#E4E3E0] min-h-screen flex flex-col">
+    <!-- header start -->
+    <header>
+      <nav
+        class="border-3 border-[#FACC15] bg-[#1E3A8A] flex flex-row items-center">
+        <!-- clickable logo to take the user back to home page. -->
+        <a href="../index.html"
+          ><button class="bg-transparent cursor-pointer ml-2">
+            <img
+              src="https://i.imghippo.com/files/lwZc1015Zi.png"
+              alt="BidSmart logo featuring a gold gavel icon on a square background next to the word “BidSmart” in gold text, all on a transparent background."
+              class="w-60 h-25" /></button
+        ></a>
+        <!-- the div for the search bar and the new listing icon -->
+         <!-- search bar -->
+        <div class="flex m-auto">
+          <input
+            type="search"
+            placeholder="SEARCH"
+            class="border-3 border-[#FACC15] rounded-4xl text-center placeholder:text-[#FFFFFF] w-93 h-15 focus:bg-white" />
+          <!-- the new listing clickable button for creating a new listing -->
+          <button
+            class="cursor-pointer bg-[url('https://i.imghippo.com/files/GCjf7875el.png')] mr-4 w-16 h-16 z-100 bg-center bg-cover bg-no-repeat hover:bg-[url('https://i.imghippo.com/files/BQqD1711yc.png')] hover:bg-center hover:bg-cover hover:bg-no-repeat"></button>
+        </div>
+        <!-- the div for profile page and hamburger menu -->
+        <div class="flex justify-end">
+          <!-- the button for profile page -->
+          <a href="profile-page.html"><button>
+            <img
+              src="https://i.imghippo.com/files/Bnxk8228eY.png"
+              alt="Minimalist white avatar silhouette icon featuring a faceless head and shoulders on a solid yellow circular background, used for user profile placeholder, account image, or social media default avatar."
+              class="h-16 w-16 cursor-pointer" />
+          </button></a>
+            <!-- the hamburger menu button -->
+          <button>
+            <img
+              src="https://i.imghippo.com/files/LKqc2461NZo.png"
+              alt="Three horizontal, rounded rectangular lines stacked vertically on a black background, resembling a minimalistic menu icon. The tone is simple and modern."
+              class="h-16 w-16 mr-4 ml-8 cursor-pointer"
+              id="hambuger-menu" />
+          </button>
+        </div>
+      </nav>
+    </header>
+    <!-- header end -->
+     <!-- the div for all of the clickable menus, such as hamburger menu and new listing menu the content of the menus will be made dynamically with JS -->
+    <div id="toggle-element-container"></div>
+    <!-- the overall container for all of the main content of the page. -->
+    <main id="main-content-container" class="grow"></main>
+    <!-- footer with 3 clickable links that will take the user to different pages. with a trademark reminder at the bottom. -->
+    <footer class="border-3 border-[#FACC15] bg-[#1E3A8A] flex flex-col">
+      <div class="flex flex-col ml-4">
+        <a
+          href="../index.html"
+          class="text-white hover:border-b-3 hover:border-[#FACC15] w-fit mb-4 mt-2"
+          >HOME</a
+        >
+        <a
+          href="contact.html"
+          class="text-white hover:border-b-3 hover:border-[#FACC15] w-fit mb-4"
+          >CONTACT</a
+        >
+        <a
+          href="terms-and-conditions.html"
+          class="text-white hover:border-b-3 hover:border-[#FACC15] w-fit mb-4"
+          >TERMS & CONDITIONS</a
+        >
+      </div>
+      <p class="text-white m-auto">© Bidsmart all rights perserved</p>
+    </footer>
+    <!-- JS script linking -->
+     <script src="../js/resuable.js"></script>
+     <script src="../js/sign-up.js"></script>
+  </body>
+</html>
