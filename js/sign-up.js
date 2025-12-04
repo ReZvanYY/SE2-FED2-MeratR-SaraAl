@@ -156,7 +156,30 @@ registerForm.addEventListener("submit", async function (event) {
     /* Sending the registerationData paylod to API for registeration */
     try{
         const registerationResponse = await fetch("https://v2.api.noroff.dev/auth/register", {
-            methode: "POST",
-        })
+            method: "POST",
+            headers: { "Content-Type" : "application/json" },
+            body: JSON.stringify(registerationData),
+        });
+        const registeringResult = await registerationResponse.json();
+    /* Checking to see if registeration was a success or failure, an error message will show when failed. */
+        if(!registeringResult.ok) {
+            const resultMessage = registeringResult.errors?.[0]?.message || registeringResult.message || "Registeration Failed! try again later!";
+            throw new Error(resultMessage);
+        }
+    /* Signing in after a successful registeration */
+        const loginResponse = await fetch("https://v2.api.noroff.dev/auth/login", {
+            method: "POST",
+            headers: { "Content-Type" : "application/json" },
+            body: JSON.stringify({
+                email: emailInput,
+                password: passwordInput,
+            }),
+        });
+        const loginResult = await loginResponse.json();
+
+        if(!loginResponse.ok){
+            throw new Error(loginResult.message ||"Login failed after registeration, go to sign in page to retry.")
+        }
+        const { accessToken, ...}
     }
 });
