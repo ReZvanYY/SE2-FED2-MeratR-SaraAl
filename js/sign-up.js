@@ -84,12 +84,13 @@ FormContainerRight.appendChild(errorMessage);
 
 /* success messages */
 const successMessage = document.createElement("p");
-successMessage.className = "mt-2 text-[1rem]";
+successMessage.className = "mt-2 text-[1rem] text-[#FACC15]";
 FormContainerRight.appendChild(successMessage);
 
 /* Adding a submit button for the form */
 const submitButton = document.createElement("button");
 submitButton.type = "submit";
+submitButton.setAttribute("form", "sign-up-form")
 submitButton.textContent = "REGISTER";
 submitButton.className =
     "border-2 border-[#FACC15] rounded-4xl text-white text-[1.5rem] font-Poppins font-bold px-3 bg-[#059669] hover:bg-[#04875F] cursor-pointer lg:w-[10rem] w-[8rem] m-auto mb-4";
@@ -146,40 +147,75 @@ registerForm.addEventListener("submit", async function (event) {
         return;
     }
     /* User Input payload preparetion for API */
-    const registerationData = {
+    const registrationData = {
         name: nameInput,
         email: emailInput,
         password: passwordInput
     };
 
     /* API handling and registering */
-    /* Sending the registerationData paylod to API for registeration */
-    try{
-        const registerationResponse = await fetch("https://v2.api.noroff.dev/auth/register", {
+    /* Sending the registrationData paylod to API for registration */
+    try {
+        const registrationResponse = await fetch("https://v2.api.noroff.dev/auth/register", {
             method: "POST",
-            headers: { "Content-Type" : "application/json" },
-            body: JSON.stringify(registerationData),
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(registrationData),
         });
-        const registeringResult = await registerationResponse.json();
-    /* Checking to see if registeration was a success or failure, an error message will show when failed. */
-        if(!registeringResult.ok) {
-            const resultMessage = registeringResult.errors?.[0]?.message || registeringResult.message || "Registeration Failed! try again later!";
+        const registeringResult = await registrationResponse.json();
+        /* Checking to see if registration was a success or failure, an error message will show when failed. */
+        if (!registrationResponse.ok) {
+            const resultMessage = registeringResult.errors?.[0]?.message || 
+            registeringResult.message || "registration Failed! try again later!";
             throw new Error(resultMessage);
         }
-    /* Signing in after a successful registeration */
+        /* Signing in after a successful registration */
         const loginResponse = await fetch("https://v2.api.noroff.dev/auth/login", {
             method: "POST",
-            headers: { "Content-Type" : "application/json" },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 email: emailInput,
                 password: passwordInput,
             }),
         });
+        /* Checking the login result, if failed a error message will be shown */
         const loginResult = await loginResponse.json();
 
-        if(!loginResponse.ok){
-            throw new Error(loginResult.message ||"Login failed after registeration, go to sign in page to retry.")
+        if (!loginResponse.ok) {
+            throw new Error(loginResult.message || "Login failed after registration, go to sign in page to retry.")
         }
-        const { accessToken, ...}
+        const { accessToken, ...userData } = loginResult.data;
+
+        /* Saving the login data to the localStorage of the browser. */
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("user", JSON.stringify(userData));
+
+        /* Creating an API Key for the user */
+        const apiKeyResponse = await fetch("https://v2.api.noroff.dev/auth/create-api-key",
+            {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    "Content-Type": "application/json"
+                }
+            },
+        );
+        /* Checking the json response of the API KEY creation. */
+        const apiKeyResult = await apiKeyResponse.json();
+        if(!apiKeyResponse.ok){
+            throw new Error(apiKeyResult.message || "Failed to create the API key for the user, please try again later.")
+        }
+        /* If no error, the API key will be stored in the localStorage of the browser */
+        localStorage.setItem("apikey", apiKeyResult.data.key);
+
+        /* Once everything is a success, there will be displayed a success message */
+        successMessage.textContent = "Happy biding, Redirecting..."
+        registerForm.reset();
+        /* if success, after 2 seconds the user will be redirected to the home page of the web app. */
+        setTimeout(() => {
+            window.location.href = "../index.html";
+        }, 2000);
+        /* This will catch any errors for the API and will display it to the user as an error. */
+    } catch (error) {
+        errorMessage.textContent = error.message;
     }
 });
