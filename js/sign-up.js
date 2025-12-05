@@ -205,7 +205,7 @@ registerForm.addEventListener("submit", async function (event) {
             throw new Error(apiKeyResult.message || "Failed to create the API key for the user, please try again later.")
         }
         /* If no error, the API key will be stored in the localStorage of the browser */
-        localStorage.setItem("apikey", apiKeyResult.data.key);
+        localStorage.setItem("apiKey", apiKeyResult.data.key);
 
         /* Once everything is a success, there will be displayed a success message */
         successMessage.textContent = "Happy biding, Redirecting..."
