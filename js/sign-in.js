@@ -151,32 +151,22 @@ signInForm.addEventListener("submit", async function (event) {
         localStorage.setItem("user", JSON.stringify(userData));
 
         /* checking to see if there is a API key present, if not creates a new. */
-        if (!localStorage.getItem("apiKey")) {
-            const apiKeyResponse = await fetch("https://v2.api.noroff.dev/auth/create-api-key", {
-                method: "POST",
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                    "Content-Type": "application/json"
-                },
-            });
-            /* Checking to see if the response from the API key endpoint is okey. if not there will be an error displayed. */
-            const apiKeyResult = await apiKeyResponse.json();
+      const apiKeyResponse = await fetch("https://v2.api.noroff.dev/auth/create-api-key", {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name: "AuthKey" })
+        });
 
-            /* Store the new key in LocalStorage of the browser */
-            if (apiKeyResponse.ok) {
-                localStorage.setItem("apiKey", apiKeyResult.data.key);
-                /* if there are any issues creating the key this code will run. */
-            } else {
-                const apiKeyMessage = apiKeyResult.message || apiKeyResult.errors?.[0]?.message || "Failed to create API Key, for this user."
-                /* Checking to see if the user has an active API key from before */
-                if (!apiKeyMessage.toLowerCase().includes("already") &&
-                    !apiKeyMessage.toLowerCase().includes("active api key")
-                ) {
-                    /* This will inform the user about the error. */
-                    throw new Error(apiKeyMessage)
-                }
-            }
+        const apiKeyResult = await apiKeyResponse.json();
+        if(!apiKeyResponse.ok){
+            throw new Error(apiKeyResult.message || "Failed to generate API key");
         }
+
+        localStorage.setItem("apiKey", apiKeyResult.data.key);
+
             /* SUCCESS!! */
             successMessage.textContent = "Welcome back! Redirecting...";
             signInForm.reset();
