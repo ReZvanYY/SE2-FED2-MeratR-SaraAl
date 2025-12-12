@@ -353,3 +353,316 @@ function buildProfileLayout() {
     biddedContainer,
   };
 }
+/* The function for inline edit of the listing */
+function inlineEditListing(listing, rowElement) {
+  if (rowElement.querySelector(".inline-edit-form")) return;
+
+  /* Creating the form. */
+  const inlineEditForm = document.createElement("div");
+  inlineEditForm.className = "inline-edit-form flex flex-col";
+
+  /* title label and input in the form */
+  /* Label */
+  const editFormTitleLabel = document.createElement("h3");
+  editFormTitleLabel.textContent = "LISTING TITLE";
+  editFormTitleLabel.className =
+    "font-Poppins font-bold text-[#FACC15] text-[1.25rem] text-center m-2";
+  inlineEditForm.appendChild(editFormTitleLabel);
+
+  /* Inputfield */
+  const editFormTitleInput = document.createElement("input");
+  editFormTitleInput.id = "edit-title";
+  editFormTitleInput.className = "border-3 border-[#FACC15] p-2 rounded-4xl";
+  editFormTitleInput.placeholder = "Listing Title";
+  editFormTitleInput.value = listing.title || "No title yet";
+  inlineEditForm.appendChild(editFormTitleInput);
+
+  /* description label and textarea in the form */
+  /* Label */
+  const editFormDescriptionLabel = document.createElement("h3");
+  editFormDescriptionLabel.textContent = "DESCRIPTION";
+  editFormDescriptionLabel.className =
+    "font-Poppins font-bold text-[#FACC15] text-[1.25rem] text-center m-2";
+  inlineEditForm.appendChild(editFormDescriptionLabel);
+
+  /* Inputfield */
+  const editFormDescriptionTextarea = document.createElement("textarea");
+  editFormDescriptionTextarea.id = "edit-description";
+  editFormDescriptionTextarea.className =
+    "border-3 border-[#FACC15] p-2 rounded-4xl";
+  editFormDescriptionTextarea.placeholder = "Listing description";
+  editFormDescriptionTextarea.value =
+    listing.description || "No description yet";
+  inlineEditForm.appendChild(editFormDescriptionTextarea);
+
+  /* Media label and input in the form */
+  /* Label */
+  const editFormMediaLabel = document.createElement("h3");
+  editFormMediaLabel.textContent = "MEDIA";
+  editFormMediaLabel.className =
+    "font-Poppins font-bold text-[#FACC15] text-[1.25rem] text-center m-2";
+  inlineEditForm.appendChild(editFormMediaLabel);
+
+  /* Inputfield */
+  const editFormMediaInput = document.createElement("input");
+  editFormMediaInput.id = "edit-media";
+  editFormMediaInput.className = "border-3 border-[#FACC15] p-2 rounded-4xl";
+  editFormMediaInput.placeholder = "Only Public URL";
+  editFormMediaInput.value =
+    (listing.media && listing.media[0] && listing.media[0].url) ||
+    "No Media found";
+  inlineEditForm.appendChild(editFormMediaInput);
+
+  /* Helper text */
+  const helperLink = document.createElement("p");
+  helperLink.innerHTML = `
+  Need a public URL? Upload the image <a href="https://www.imghippo.com/" target="_blank" class="text-green-500 underline cursor-pointer">HERE</a>
+  `;
+  helperLink.className = "text-sm text-white font-semibold";
+  inlineEditForm.appendChild(helperLink);
+
+  /* SAVE and CANCEL button container */
+  const editFormActionButtonsContainer = document.createElement("div");
+  editFormActionButtonsContainer.className = "flex flex-row gap-3";
+
+  /* SAVE button */
+  const editFormSaveButton = document.createElement("button");
+  editFormSaveButton.id = "save-button";
+  editFormSaveButton.textContent = "SAVE CHANGES";
+  editFormSaveButton.className =
+    "font-bold font-Poppins text-[1.25rem] text-white text-center m-2 bg-[#059669] hover:bg-[#04875F] border-2 border-[#FACC15] rounded-4xl cursor-pointer";
+  editFormActionButtonsContainer.appendChild(editFormSaveButton);
+
+  /* Cancel button */
+  const editFormCancelButton = document.createElement("button");
+  editFormCancelButton.id = "cancel-button";
+  editFormCancelButton.textContent = "CANCEL CHANGES";
+  editFormCancelButton.className =
+    "font-bold font-Poppins text-[1.25rem] text-center m-2 bg-[#FF0004] hover:bg-[#D40003] border-2 border-[#FACC15] rounded-4xl cursor-pointer";
+  editFormActionButtonsContainer.appendChild(editFormCancelButton);
+
+  inlineEditForm.appendChild(editFormActionButtonsContainer);
+  rowElement.appendChild(inlineEditForm);
+
+  /* Edit event callers */
+  /* This code will cancel the form and do nothing with the listing */
+  editFormCancelButton.onclick = () => inlineEditForm.remove();
+
+  /* Save edit onclick function */
+  editFormSaveButton.onclick = async () => {
+    /* get the value of the user input for the title, description and media changes */
+    const newUpdatedTitle = editFormTitleInput.value.trim();
+    const newUpdatedDescription = editFormDescriptionTextarea.value.trim();
+    const newUpdatedMediaUrl = editFormMediaInput.value.trim();
+
+    /* Getting together a data payload to be sent to API with updated data for the listing */
+    const updateListingData = {
+      title: newUpdatedTitle || listing.title,
+      description: newUpdatedDescription || listing.description,
+    };
+    if (newUpdatedMediaUrl) {
+      updateListingData.media = [
+        {
+          url: newUpdatedMediaUrl,
+          alt:
+            newUpdatedTitle ||
+            `Image for the listing: ${listing.title}` ||
+            "listing image",
+        },
+      ];
+    }
+    try {
+      await updateListing(listing.id, updateListingData);
+      alert("Listing Updated");
+      initProfilePage();
+    } catch (updateError) {
+      alert("Unable to update listing");
+      console.error(updateError);
+    }
+  };
+}
+
+/* A function for fetching the listings */
+function createListingRow(listing, withActions = false) {
+  const mainRow = document.createElement("div");
+  mainRow.className =
+    "flex flex-row items-center justify-between border-3 border-[#FACC15] rounded-4xl p-2";
+
+  /* Listing title for the profile */
+  const listingTitle = document.createElement("p");
+  listingTitle.textContent = listing.title || "Auction item name";
+  listingTitle.className = "Font-Poppins text-[1.1rem] text-black";
+  mainRow.appendChild(listingTitle);
+
+  /* Creating the action calling buttons and containers */
+  if (withActions) {
+    const actionButtonsContainer = document.createElement("div");
+    actionButtonsContainer.className = "flex flex-row gap-2";
+
+    /* EDIT button */
+    const editButton = document.createElement("button");
+    editButton.textContent = "EDIT";
+    editButton.className =
+      "bg-[#4B0596] hover:bg-[#6D34A9] border-2 border-[#FACC15] rounded-4xl text-center text-[1.25rem] text-white cursor-pointer";
+    actionButtonsContainer.appendChild(editButton);
+
+    /* DELETE button */
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "DELETE";
+    deleteButton.className =
+      "bg-[#FF0004] hover:bg-[#D40003] border-2 border-[#FACC15] rounded-4xl text-center text-[1.25rem] text-white cursor-pointer";
+    actionButtonsContainer.appendChild(editButton);
+
+    mainRow.appendChild(actionButtonsContainer);
+
+    /* Adding the onclick function for the edit button */
+    editButton.onclick = () => {
+      inlineEditListing(listing, mainRow);
+    };
+
+    /* Adding the onclick function for the delete button */
+    deleteButton.onclick = async () => {
+      const confirmDelete = confirm(
+        "Are you sure you want to delete? This action cannot be reversed!"
+      );
+      if (!confirmDelete) {
+        return;
+      }
+
+      try {
+        await deleteListing(listing.id);
+        alert("listing deleted!");
+        mainRow.remove();
+      } catch (deleteError) {
+        alert("Unable to delete the listing");
+        console.error(deleteError);
+      }
+    };
+    /* If the listing row is clicked and not the buttons then it will send the user to the listing */
+  } else {
+    mainRow.className = "cursor-pointer";
+    mainRow.onclick = () => {
+      window.location.href = `/html/item-specific.html?id=${listing.id}`;
+    };
+  }
+  return mainRow;
+}
+
+/* Rendering the UI for the profile */
+function renderProfile(profile, uiElements) {
+  const {
+    bannerImg,
+    profileAvatar,
+    userName,
+    bio,
+    creditAvailable,
+    profileSettingsButton,
+    changeAvatarButton,
+    changeBannerButton,
+    changeBioButton,
+  } = uiElements;
+
+  /* Checking to find the profile. */
+  if (!profile) {
+    if (userName) {
+      userName.textContent = "PROFILE NOT FOUND!";
+    }
+    return;
+  }
+  /* rendering and validating the banner src */
+  if (bannerImg && profile.banner && profile.banner.url) {
+    bannerImg.src = profile.banner.url;
+  }
+
+  /* Checking for the username of the profile and rendering */
+  if (userName) {
+    userName.textContent = profile.name || "Unknown user";
+  }
+
+  /* Checking for the bio of the profile and rendering */
+  if (bio) {
+    bio.value = stripHtml(profile.bio || "No bio yet");
+  }
+
+  /* Checking for credit available */
+  if (creditAvailable) {
+    if (typeof profile.credits === "number") {
+      creditAvailable.textContent = `CREDITS: ${profile.credits}`;
+    } else {
+      creditAvailable.textContent = "NO CREDIT FOUND";
+    }
+  }
+  /* Making sure that the user is the owner of the profile page */
+  const loggedInUser = getLoggedInUser();
+  const isOwnProfile =
+    isSignedIn() &&
+    loggedInUser.name &&
+    profile.name &&
+    loggedInUser.name.toLowerCase() === profile.name.toLowerCase();
+
+  /* if the user is the owner, then the profile page will display the profile settings button for the user to interact with */
+  if (isOwnProfile) {
+    if (profileSettingsButton) {
+      profileSettingsButton.onclick = () => {
+        const menu = document.getElementById("profile-settings-menu");
+        if (menu) menu.classList.toggle("hidden");
+      };
+    }
+    /* Still inside the isOwnProfile if statement if true, the user will get the possibility to change their avatar */
+    if (changeAvatarButton) {
+      changeAvatarButton.onclick = async () => {
+        const newUrl = prompt("Enter a new public image URL:");
+        if (!newUrl) return;
+        try {
+          const updatedAvatar = await updateProfileInfo(profile.name, {
+            avatarUrl: newUrl.trim(),
+          });
+          renderProfile(updatedAvatar, uiElements);
+          alert("Profile Picture updated!");
+        } catch (ProfilePictureUpdateError) {
+          console.log(ProfilePictureUpdateError);
+          alert("Unable to update the profile picture");
+        }
+      };
+    }
+    /* Still inside the isOwnProfile if statement if true, the user will get the possibility to change their bio */
+    if (changeBioButton) {
+      changeBioButton.onclick = async () => {
+        const currentPlainBio = stripHtml(profile.bio || "No Bio found");
+        const newBio = prompt("Update your bio:", currentPlainBio);
+        if (newBio === null) return;
+        try {
+          const updatedBio = await updateProfileInfo(profile.bio, {
+            bio: newBio.trim(),
+          });
+          renderProfile(updatedBio, uiElements);
+          alert("Bio updated!");
+        } catch (bioUpdateError) {
+          console.log(bioUpdateError);
+          alert("Unable to update the bio");
+        }
+      };
+    }
+    /* Still inside the isOwnProfile if statement if true, the user will get the possibility to change their avatar */
+    if (changeBannerButton) {
+      changeBannerButton.onclick = async () => {
+        const newBannerUrl = prompt("Enter a new banner image PUBLIC URL");
+        if (!newBannerUrl) return;
+        try {
+          const updatedBanner = await updateProfileInfo(profile.name, {
+            bannerUrl: newBannerUrl.trim(),
+          });
+          renderProfile(updatedBanner, uiElements);
+          alert("Profile banner updated!");
+        } catch (bannerUpdateError) {
+          console.log(bannerUpdateError);
+          alert("Unable to update the profile banner");
+        }
+      };
+    }
+  } else {
+    if(profileSettingsButton){
+        profileSettingsButton.style.display = "none"
+    }
+  }
+}
