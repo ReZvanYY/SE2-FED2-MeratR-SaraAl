@@ -85,7 +85,7 @@ async function fetchUserBids(name) {
   /* This is the API url for fetching a specific profile. */
   const fetchBidsUrl = `${baseApiUrl}/auction/profiles/${encodeURIComponent(
     name
-  )}/listings?_bids=true`;
+  )}/bids`;
 
   /* API options */
   const headers = { "Content-Type": "application/json" };
@@ -180,11 +180,11 @@ function buildProfileLayout() {
 
   /* Creating a section for the content */
   const profileSection = document.createElement("section");
-  profileSection.className = "";
+  profileSection.className = "w-full";
 
   /* Creating a container for the banner and put the banner inside the container */
   const bannerContainer = document.createElement("div");
-  bannerContainer.className = "w-full object-cover overflow-hidden";
+  bannerContainer.className = "w-full h-40 object-fill overflow-hidden";
 
   const bannerImg = document.createElement("img");
   bannerImg.id = "profile-banner";
@@ -197,12 +197,12 @@ function buildProfileLayout() {
 
   /* Creating a container for the top section of the section for the profile picture, username, bio, profile settings, and credit available */
   const topSectionContainer = document.createElement("div");
-  topSectionContainer.className = "flex flex-row items-start";
+  topSectionContainer.className = "flex flex-row items-start bg-[#]";
 
   /* Creating the profile picture element inside a wrapper for placement */
   const profileAvatarWrapper = document.createElement("div");
   profileAvatarWrapper.className =
-    "w-30 h-30 rounded-full overflow-hidden border-3 border-[#FACC15]";
+    "max-md:w-35 max-md:h-35 w-45 h-45 rounded-full overflow-hidden border-3 border-[#FACC15] mt-2 ml-3";
 
   /* Creating the element for the profile picture */
   const profileAvatar = document.createElement("img");
@@ -219,14 +219,14 @@ function buildProfileLayout() {
   /* Creating the element for the profile Username */
   const userName = document.createElement("h1");
   userName.className =
-    "text-[1.25rem] text-center font-bold font-Poppins text-black";
+    "text-[2rem] text-center font-bold font-Poppins text-black";
   userName.id = "profile-username";
   textAndButtonWrapper.appendChild(userName);
 
   /* Creating the element for the profile Bio */
   const bio = document.createElement("textarea");
   bio.className =
-    "text-[1rem] text-center font-semibold font-Poppins text-black resize-none";
+    "flex m-auto text-[1rem] text-center font-semibold font-Poppins text-black resize-none w-[40%] h-35 hover:cursor-default border-none outline-none focus:ring-0 overflow-hidden";
   bio.id = "profile-bio";
   textAndButtonWrapper.appendChild(bio);
 
@@ -245,7 +245,7 @@ function buildProfileLayout() {
   const profileSettingsButton = document.createElement("button");
   profileSettingsButton.textContent = "PROFILE SETTINGS";
   profileSettingsButton.className =
-    "border-2 border-[#FACC15] rounded-4xl text-white text-[1.25rem] font-Poppins font-bold bg-[#059669] hover:bg-[#04875F] cursor-pointer";
+    "border-2 border-[#FACC15] rounded-4xl text-white text-[1.25rem] font-Poppins font-bold bg-[#059669] hover:bg-[#04875F] cursor-pointer p-2 mr-8 mb-2";
   profileSettingsButton.id = "profile-settings-button";
   textAndButtonWrapper.appendChild(profileSettingsButton);
 
@@ -255,14 +255,15 @@ function buildProfileLayout() {
   /* Creating the settings menu */
   const profileSettingsMenu = document.createElement("div");
   profileSettingsMenu.id = "profile-settings-menu";
-  profileSettingsMenu.className = "flex flex-col mt-3 hidden";
+  profileSettingsMenu.className =
+    "flex flex-col items-center text-center hidden w-full";
 
   /* Creating the change profile picture button inside the settings menu */
   const changeAvatarButton = document.createElement("button");
   changeAvatarButton.id = "change-avatar-button";
   changeAvatarButton.textContent = "CHANGE PROFILE PICTURE";
   changeAvatarButton.className =
-    "border-2 border-[#FACC15] rounded-4xl text-white text-[1.25rem] font-Poppins font-bold bg-[#059669] hover:bg-[#04875F] cursor-pointer";
+    "border-2 border-[#FACC15] rounded-4xl text-white text-[1.25rem] font-Poppins font-bold bg-[#059669] hover:bg-[#04875F] cursor-pointer mb-2 py-3 w-1/2";
   profileSettingsMenu.appendChild(changeAvatarButton);
 
   /* Creating the change profile banner button inside the settings menu */
@@ -270,7 +271,7 @@ function buildProfileLayout() {
   changeBannerButton.id = "change-banner-button";
   changeBannerButton.textContent = "CHANGE PROFILE BANNER";
   changeBannerButton.className =
-    "border-2 border-[#FACC15] rounded-4xl text-white text-[1.25rem] font-Poppins font-bold bg-[#059669] hover:bg-[#04875F] cursor-pointer";
+    "border-2 border-[#FACC15] rounded-4xl text-white text-[1.25rem] font-Poppins font-bold bg-[#059669] hover:bg-[#04875F] cursor-pointer mb-2 py-3 w-1/2";
   profileSettingsMenu.appendChild(changeBannerButton);
 
   /* Creating the change profile bio button inside the settings menu */
@@ -278,26 +279,32 @@ function buildProfileLayout() {
   changeBioButton.id = "change-bio-button";
   changeBioButton.textContent = "CHANGE BIO";
   changeBioButton.className =
-    "border-2 border-[#FACC15] rounded-4xl text-white text-[1.25rem] font-Poppins font-bold bg-[#059669] hover:bg-[#04875F] cursor-pointer";
+    "border-2 border-[#FACC15] rounded-4xl text-white text-[1.25rem] font-Poppins font-bold bg-[#059669] hover:bg-[#04875F] cursor-pointer mb-2 py-3 w-1/2";
   profileSettingsMenu.appendChild(changeBioButton);
 
   /* Appending everything together with the correct Parent/child relation */
+  profileSection.appendChild(topSectionContainer);
+  profileWrapper.appendChild(profileSection);
   textAndButtonWrapper.appendChild(profileSettingsMenu);
   topSectionContainer.appendChild(textAndButtonWrapper);
-  profileSection.appendChild(topSectionContainer);
+
+  /* Creating a wrapper for having the two boxes side by side */
+  const boxWrapper = document.createElement("div");
+  boxWrapper.className =
+    "flex flex-row-reverse w-full justify-center items-start gap-2 m-auto mb-4";
 
   /* Creating a section for the users created listings. */
   const createdListingSection = document.createElement("section");
   createdListingSection.className =
-    "bg-[#1E3A8A] border-3 border-[#FACC15] rounded-4xl overflow-hidden";
+    "bg-[#1E3A8A] border-3 border-[#FACC15] rounded-4xl overflow-hidden w-[48%]";
 
   /* creating listed item section box  */
   const listingItemContainer = document.createElement("div");
-  listingItemContainer.className =
-    "w-[75%] bg-[#E4E3E0] border-3 border-[#FACC15] text-center p-2";
+  listingItemContainer.className = "w-full bg-[#1E3A8A] text-center p-2 ";
 
   /* Creating the title for the section box. */
   const sectionTitle = document.createElement("h1");
+  sectionTitle.textContent = "LISTINGS";
   sectionTitle.className =
     "font-Poppins font-bold text-[1.5rem] text-[#FACC15] mt-2";
 
@@ -307,36 +314,38 @@ function buildProfileLayout() {
   /* Creating a container for placement and flex-col */
   const createdContainer = document.createElement("div");
   createdContainer.id = "profile-created-listing-container";
-  createdContainer.className = "flex flex-col gap-3 p-4";
+  createdContainer.className =
+    "flex flex-col w-[95%] m-auto text-center gap-3 p-2";
 
   createdListingSection.appendChild(createdContainer);
-  profileWrapper.appendChild(createdListingSection);
+  boxWrapper.appendChild(createdListingSection);
 
   /* Bidding history section box */
   const bidsSection = document.createElement("section");
   bidsSection.className =
-    "bg-[#1E3A8A] border-3 border-[#FACC15] rounded-4xl overflow-hidden";
+    "bg-[#1E3A8A] border-3 border-[#FACC15] rounded-4xl overflow-hidden w-[48%]";
 
   /* creating listed item section box  */
   const bidsItemContainer = document.createElement("div");
-  bidsItemContainer.className =
-    "w-[75%] bg-[#E4E3E0] border-3 border-[#FACC15] text-center p-2";
+  bidsItemContainer.className = "flex flex-col w-[95%] m-auto text-center";
 
   /* Creating the title for the section box. */
   const bidsSectionTitle = document.createElement("h1");
+  bidsSectionTitle.textContent = "BIDS";
   bidsSectionTitle.className =
     "font-Poppins font-bold text-[1.5rem] text-[#FACC15] mt-2";
 
   bidsItemContainer.appendChild(bidsSectionTitle);
-  createdListingSection.appendChild(bidsItemContainer);
+  bidsSection.appendChild(bidsItemContainer);
 
   /* Creating a container for placement and flex-col */
   const biddedContainer = document.createElement("div");
   biddedContainer.id = "profile-bidded-container";
   biddedContainer.className = "flex flex-col gap-3 p-4";
 
+  boxWrapper.appendChild(bidsSection);
+  profileWrapper.appendChild(boxWrapper);
   bidsSection.appendChild(biddedContainer);
-  profileWrapper.appendChild(bidsSection);
   mainContent.appendChild(profileWrapper);
 
   return {
@@ -353,6 +362,60 @@ function buildProfileLayout() {
     biddedContainer,
   };
 }
+/* Update listing function for edit listings */
+async function updateListing(listingId, data) {
+  const url = `${baseApiUrl}/auction/listings/${encodeURIComponent(listingId)}`;
+  /* API options */
+  const headers = { "Content-Type": "application/json" };
+  const token = localStorage.getItem("accessToken");
+  const apiKey = localStorage.getItem("apiKey");
+
+  if (token) headers.Authorization = `Bearer ${token}`;
+  if (apiKey) headers["X-Noroff-API-KEY"] = apiKey;
+  /* Creating a PUT request to send to the API, for editing a post  */
+  const response = await fetch(url, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(data),
+  });
+
+  /* if the response is not reaching or not OK. Error text will be shown in console */
+  if (!response.ok) {
+    const Errortext = await response.text().catch(() => "");
+    throw new Error(
+      `Failed to update listing (${response.status}): ${Errortext}`
+    );
+  }
+  /* Fetching the data from the response */
+  const result = await response.json();
+  return result.data;
+}
+/* Update listing function for delete listings */
+async function deleteListing(listingId) {
+  const url = `${baseApiUrl}/auction/listings/${encodeURIComponent(listingId)}`;
+  /* API options */
+  const headers = { "Content-Type": "application/json" };
+  const token = localStorage.getItem("accessToken");
+  const apiKey = localStorage.getItem("apiKey");
+
+  if (token) headers.Authorization = `Bearer ${token}`;
+  if (apiKey) headers["X-Noroff-API-KEY"] = apiKey;
+
+  /* Creating a DELETE request to send to the API, for deleting a post  */
+  const response = await fetch(url, {
+    method: "DELETE",
+    headers,
+  });
+
+  /* if the response is not reaching or not OK. Error text will be shown in console */
+  if (!response.ok) {
+    const text = await response.text().catch(() => "");
+    throw new Error(`Failed to delete listing (${response.status}): ${text}`);
+  }
+
+  return true;
+}
+
 /* The function for inline edit of the listing */
 function inlineEditListing(listing, rowElement) {
   if (rowElement.querySelector(".inline-edit-form")) return;
@@ -360,6 +423,7 @@ function inlineEditListing(listing, rowElement) {
   /* Creating the form. */
   const inlineEditForm = document.createElement("div");
   inlineEditForm.className = "inline-edit-form flex flex-col";
+  inlineEditForm.addEventListener("click", (e) => e.stopPropagation());
 
   /* title label and input in the form */
   /* Label */
@@ -418,7 +482,7 @@ function inlineEditListing(listing, rowElement) {
   helperLink.innerHTML = `
   Need a public URL? Upload the image <a href="https://www.imghippo.com/" target="_blank" class="text-green-500 underline cursor-pointer">HERE</a>
   `;
-  helperLink.className = "text-sm text-white font-semibold";
+  helperLink.className = "text-sm text-black font-semibold";
   inlineEditForm.appendChild(helperLink);
 
   /* SAVE and CANCEL button container */
@@ -446,88 +510,95 @@ function inlineEditListing(listing, rowElement) {
 
   /* Edit event callers */
   /* This code will cancel the form and do nothing with the listing */
-  editFormCancelButton.onclick = () => inlineEditForm.remove();
+  editFormCancelButton.addEventListener("click", (e) => {
+    e.stopPropagation();
+    inlineEditForm.remove();
+  });
 
-  /* Save edit onclick function */
-  editFormSaveButton.onclick = async () => {
-    /* get the value of the user input for the title, description and media changes */
-    const newUpdatedTitle = editFormTitleInput.value.trim();
-    const newUpdatedDescription = editFormDescriptionTextarea.value.trim();
-    const newUpdatedMediaUrl = editFormMediaInput.value.trim();
+  /* Save edit eventlistener function */
+  editFormSaveButton.addEventListener("click", async (e) => {
+    e.stopPropagation();
+    editFormSaveButton.onclick = async () => {
+      /* get the value of the user input for the title, description and media changes */
+      const newUpdatedTitle = editFormTitleInput.value.trim();
+      const newUpdatedDescription = editFormDescriptionTextarea.value.trim();
+      const newUpdatedMediaUrl = editFormMediaInput.value.trim();
 
-    /* Getting together a data payload to be sent to API with updated data for the listing */
-    const updateListingData = {
-      title: newUpdatedTitle || listing.title,
-      description: newUpdatedDescription || listing.description,
+      /* Getting together a data payload to be sent to API with updated data for the listing */
+      const updateListingData = {
+        title: newUpdatedTitle || listing.title,
+        description: newUpdatedDescription || listing.description,
+      };
+      if (newUpdatedMediaUrl) {
+        updateListingData.media = [
+          {
+            url: newUpdatedMediaUrl,
+            alt:
+              newUpdatedTitle ||
+              `Image for the listing: ${listing.title}` ||
+              "listing image",
+          },
+        ];
+      }
+      try {
+        await updateListing(listing.id, updateListingData);
+        alert("Listing Updated");
+        initProfilePage();
+      } catch (updateError) {
+        alert("Unable to update listing");
+        console.error(updateError);
+      }
     };
-    if (newUpdatedMediaUrl) {
-      updateListingData.media = [
-        {
-          url: newUpdatedMediaUrl,
-          alt:
-            newUpdatedTitle ||
-            `Image for the listing: ${listing.title}` ||
-            "listing image",
-        },
-      ];
-    }
-    try {
-      await updateListing(listing.id, updateListingData);
-      alert("Listing Updated");
-      initProfilePage();
-    } catch (updateError) {
-      alert("Unable to update listing");
-      console.error(updateError);
-    }
-  };
+  });
 }
 
 /* A function for fetching the listings */
 function createListingRow(listing, withActions = false) {
   const mainRow = document.createElement("div");
   mainRow.className =
-    "flex flex-row items-center justify-between border-3 border-[#FACC15] rounded-4xl p-2";
+    "flex flex-row items-center justify-between border-3 border-[#FACC15] rounded-4xl p-2 bg-[#E4E3E0] cursor-pointer hover:bg-blue-300 h-full";
+
+  mainRow.addEventListener("click", () => {
+    if (mainRow.querySelector(".inline-edit-form")) return;
+    window.location.href = `/html/item-specific.html?id=${listing.id}`;
+  });
 
   /* Listing title for the profile */
   const listingTitle = document.createElement("p");
   listingTitle.textContent = listing.title || "Auction item name";
-  listingTitle.className = "Font-Poppins text-[1.1rem] text-black";
+  listingTitle.className =
+    "Font-Poppins font-bold text-[1rem] text-black w-cover";
   mainRow.appendChild(listingTitle);
 
   /* Creating the action calling buttons and containers */
   if (withActions) {
     const actionButtonsContainer = document.createElement("div");
-    actionButtonsContainer.className = "flex flex-row gap-2";
+    actionButtonsContainer.className = "max-md:flex-col flex flex-row gap-3";
 
     /* EDIT button */
     const editButton = document.createElement("button");
     editButton.textContent = "EDIT";
     editButton.className =
-      "bg-[#4B0596] hover:bg-[#6D34A9] border-2 border-[#FACC15] rounded-4xl text-center text-[1.25rem] text-white cursor-pointer";
-    actionButtonsContainer.appendChild(editButton);
+      "bg-[#4B0596] hover:bg-[#6D34A9] border-2 border-[#FACC15] rounded-4xl text-center text-[1.25rem] text-white cursor-pointer px-2 max-md:text-[1rem] max-md:px-1";
 
     /* DELETE button */
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "DELETE";
     deleteButton.className =
-      "bg-[#FF0004] hover:bg-[#D40003] border-2 border-[#FACC15] rounded-4xl text-center text-[1.25rem] text-white cursor-pointer";
-    actionButtonsContainer.appendChild(editButton);
+      "bg-[#FF0004] hover:bg-[#D40003] border-2 border-[#FACC15] rounded-4xl text-center text-[1.25rem] text-white cursor-pointer px-2 max-md:text-[1rem] max-md:px-1";
 
-    mainRow.appendChild(actionButtonsContainer);
-
-    /* Adding the onclick function for the edit button */
-    editButton.onclick = () => {
+    /* addevent listener to make sure that the user can click the edit buttons, when the mainrow is clickable. */
+    editButton.addEventListener("click", (e) => {
+      e.stopPropagation();
       inlineEditListing(listing, mainRow);
-    };
-
-    /* Adding the onclick function for the delete button */
-    deleteButton.onclick = async () => {
+    });
+    /* addevent listener to make sure that the user can click the delete buttons, when the mainrow is clickable. */
+    deleteButton.addEventListener("click", async (e) => {
+      e.stopPropagation();
       const confirmDelete = confirm(
-        "Are you sure you want to delete? This action cannot be reversed!"
+        "Are you sure you want to delete the listing, this action cannot be reversed"
       );
-      if (!confirmDelete) {
-        return;
-      }
+      if (!confirmDelete) return;
 
       try {
         await deleteListing(listing.id);
@@ -537,13 +608,10 @@ function createListingRow(listing, withActions = false) {
         alert("Unable to delete the listing");
         console.error(deleteError);
       }
-    };
-    /* If the listing row is clicked and not the buttons then it will send the user to the listing */
-  } else {
-    mainRow.className = "cursor-pointer";
-    mainRow.onclick = () => {
-      window.location.href = `/html/item-specific.html?id=${listing.id}`;
-    };
+    });
+    actionButtonsContainer.appendChild(editButton);
+    actionButtonsContainer.appendChild(deleteButton);
+    mainRow.appendChild(actionButtonsContainer);
   }
   return mainRow;
 }
@@ -569,6 +637,13 @@ function renderProfile(profile, uiElements) {
     }
     return;
   }
+  /* Profile Picture */
+  if (profileAvatar && profile.avatar && profile.avatar.url) {
+    profileAvatar.src = profile.avatar.url;
+  } else if (profileAvatar) {
+    profileAvatar.src = "https://i.imghippo.com/files/Bnxk8228eY.png";
+  }
+
   /* rendering and validating the banner src */
   if (bannerImg && profile.banner && profile.banner.url) {
     bannerImg.src = profile.banner.url;
@@ -632,7 +707,7 @@ function renderProfile(profile, uiElements) {
         const newBio = prompt("Update your bio:", currentPlainBio);
         if (newBio === null) return;
         try {
-          const updatedBio = await updateProfileInfo(profile.bio, {
+          const updatedBio = await updateProfileInfo(profile.name, {
             bio: newBio.trim(),
           });
           renderProfile(updatedBio, uiElements);
@@ -661,8 +736,99 @@ function renderProfile(profile, uiElements) {
       };
     }
   } else {
-    if(profileSettingsButton){
-        profileSettingsButton.style.display = "none"
+    if (profileSettingsButton) {
+      profileSettingsButton.style.display = "none";
     }
   }
 }
+/* Render created listings */
+/* container is a function parameter and not a element */
+function renderCreatedListings(listings, container, withActions) {
+  if (!container) return;
+  container.innerHTML = "";
+  /* Checking to see if the user has any created listings, if not a default message will display */
+  if (!listings || !listings.length) {
+    const defaultMessage = document.createElement("p");
+    defaultMessage.textContent = "NO Listing created yet";
+    defaultMessage.className =
+      "text-center text-white text-[1.25rem] font-bold font-Poppins";
+    container.appendChild(defaultMessage);
+    return;
+  }
+  /* If the user has a listing or several each of them will be displayed on the page */
+  listings.forEach((listing) => {
+    const createdRow = createListingRow(listing, withActions);
+    container.appendChild(createdRow);
+  });
+}
+
+/* Function that will check and display any bidding the user has "Bidded? bid? (Brain.status = 404)" */
+function renderBiddedListings(bids, container) {
+  if (!container) return;
+  container.innerHTML = "";
+  /* Checking to see if the user has bid on any listings, if not a default message will display */
+  if (!bids || !bids.length) {
+    const defaultBidsMessage = document.createElement("p");
+    defaultBidsMessage.textContent = "NO bids found yet";
+    defaultBidsMessage.className =
+      "text-center text-white text-[1.25rem] font-bold font-Poppins";
+    container.appendChild(defaultBidsMessage);
+    return;
+  }
+  /* Creating a row for each listing that the user has bid on */
+  const seenListingIds = new Set();
+  bids.forEach((bid) => {
+    const bidListing = bid.listing;
+    if (bidListing && bidListing.id && !seenListingIds.has(bidListing.id)) {
+      seenListingIds.add(listing.id);
+      const createdBidRow = createListingRow(listing, false);
+      container.appendChild(createdBidRow);
+    }
+  });
+  if (!container.children.length) {
+    const defaultMessageContainer = document.createElement("p");
+    defaultMessageContainer.textContent = "No listing found for your bids";
+    defaultMessageContainer.className =
+      "text-center text-white text-[1.25rem] font-bold font-Poppins";
+    container.appendChild(defaultMessageContainer);
+  }
+}
+
+/* Displaying the renders */
+async function initProfilePage() {
+  const uiElements = buildProfileLayout();
+  if (!uiElements) return;
+
+  const urlName = getNameFromStorage();
+  const loggedInUser = getLoggedInUser();
+
+  const profileName = urlName || loggedInUser.name;
+
+  if (profileName) {
+    try {
+      const [profile, listings, bids] = await Promise.all([
+        fetchProfile(profileName),
+        fetchUserListings(profileName),
+        fetchUserBids(profileName),
+      ]);
+      renderProfile(profile, uiElements);
+
+      const isOwnProfile =
+        isSignedIn() &&
+        loggedInUser.name &&
+        profile.name &&
+        loggedInUser.name.toLowerCase() === profile.name.toLowerCase();
+
+      renderCreatedListings(
+        listings,
+        uiElements.createdContainer,
+        isOwnProfile
+      );
+      renderBiddedListings(bids, uiElements.biddedContainer);
+    } catch (loadingProfileError) {
+      console.error(loadingProfileError);
+      uiElements.userName.textContent = "FAILED TO LOAD PROFILE";
+    }
+  }
+}
+document.addEventListener("DOMContentLoaded", initProfilePage);
