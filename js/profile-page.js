@@ -27,6 +27,8 @@ const baseApiUrl = "https://v2.api.noroff.dev";
 
 /* Getting updated profile info from the API to stay up with any changes. */
 async function fetchProfile(name) {
+  /* Changing the document title to the same as the user profile name */
+  document.title = `${name} | Bidsmart`;
   /* This is the API url for fetching a specific profile. */
   const fetchProfileUrl = `${baseApiUrl}/auction/profiles/${encodeURIComponent(
     name

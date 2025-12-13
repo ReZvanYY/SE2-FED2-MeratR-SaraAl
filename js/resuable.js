@@ -45,6 +45,28 @@ dropDownArea.appendChild(createNewListingMenu);
 let hamburgerMenuToggleVisibility = false;
 let createNewListingVisibility = false;
 
+/* function for updating the profile avatar in the nav bar */
+function updateProfileAvatar() {
+  const profileAvatar = document.getElementById("profile-avatar");
+  if (!profileAvatar) return;
+  /* checks to see if the suer is signed in */
+  if (isSignedIn()) {
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    if (user.avatar && user.avatar.url) {
+      profileAvatar.src = user.avatar.url;
+      profileAvatar.alt = user.avatar.alt || user.name || "User Avatar";
+    } else {
+      /* generic default image if no profile avatar was given */
+      profileAvatar.src = "https://i.imghippo.com/files/Bnxk8228eY.png";
+      profileAvatar.alt = "User Avatar";
+    }
+  } else {
+    /* generic default image if no profile avatar was given */
+    profileAvatar.src = "https://i.imghippo.com/files/Bnxk8228eY.png";
+    profileAvatar.alt = "User Avatar";
+  }
+}
+
 /* Creating the wanted functions and html needed for the drop down menus */
 function renderToggleMenu() {
   /* Clearing out the innerhtml of the div */
@@ -544,3 +566,6 @@ if (searchBarInput) {
     handleSearch();
   });
 }
+document.addEventListener("DOMContentLoaded", () => {
+  updateProfileAvatar();
+});

@@ -1,85 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <!-- link to the poppins font found from Google Fonts. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet" />
 
-<head>
-  <!-- link to the poppins font found from Google Fonts. -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-    rel="stylesheet" />
+    <!-- Meta descriptions. -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Sign up for Bidsmart, the smart auction platform for consumers and businesses. Create your account to buy, sell, and bid on a wide range of products with ease and confidence." />
+    <meta
+      name="keywords"
+      content="bidsmart, auction website, online auctions, business auctions, consumer auctions, bid online, buy and sell, auction marketplace, register account, signup page" />
+    <meta name="author" content="Bidsmart AS" />
 
-  <!-- Meta descriptions. -->
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description"
-    content="Sign up for Bidsmart, the smart auction platform for consumers and businesses. Create your account to buy, sell, and bid on a wide range of products with ease and confidence." />
-  <meta name="keywords"
-    content="bidsmart, auction website, online auctions, business auctions, consumer auctions, bid online, buy and sell, auction marketplace, register account, signup page" />
-  <meta name="author" content="Bidsmart AS" />
+    <!-- link to the output file for tailwind css -->
+    <link rel="stylesheet" href="../src/output.css" />
 
-  <!-- link to the output file for tailwind css -->
-  <link rel="stylesheet" href="../src/output.css" />
+    <!-- page title -->
+    <title>CONTACT</title>
+  </head>
 
-  <!-- page title -->
-  <title>CONTACT</title>
+  <body class="bg-[#E4E3E0] min-h-screen flex flex-col">
+    <!-- header start -->
+    <header>
+      <nav
+        class="border-3 border-[#FACC15] bg-[#1E3A8A] flex flex-row items-center w-full">
+        <!-- clickable logo to take the user back to home page. -->
+        <a href="../index.html"
+          ><button class="bg-transparent cursor-pointer ml-2">
+            <img
+              src="https://i.imghippo.com/files/lwZc1015Zi.png"
+              alt="BidSmart logo featuring a gold gavel icon on a square background next to the word “BidSmart” in gold text, all on a transparent background."
+              id="main-logo"
+              class="max-md:w-25 max-md:h-16 md:w-60 md:h-25" /></button
+        ></a>
+        <!-- the div for the search bar and the new listing icon -->
+        <!-- search bar -->
+        <div class="flex m-auto w-full items-center justify-center">
+          <input
+            id="search"
+            type="search"
+            placeholder="SEARCH"
+            class="border-3 border-[#FACC15] rounded-4xl text-center placeholder:text-[#FFFFFF] max-md:w-20 max-md:h-10 md:w-93 md:h-15 focus:bg-white" />
+          <!-- the new listing clickable button for creating a new listing -->
+          <button
+            class="cursor-pointer bg-[url('https://i.imghippo.com/files/GCjf7875el.png')] mr-4 max-md:w-12 max-md:h-12 w-16 h-16 z-100 bg-center bg-cover bg-no-repeat hover:bg-[url('https://i.imghippo.com/files/BQqD1711yc.png')] hover:bg-center hover:bg-cover hover:bg-no-repeat"
+            id="new-post-button"></button>
+        </div>
+        <!-- the div for profile page and hamburger menu -->
+        <div class="flex justify-end">
+          <!-- the button for profile page -->
+          <a href="../html/profile-page.html"
+            ><button>
+              <img
+                src="https://i.imghippo.com/files/Bnxk8228eY.png"
+                alt="Minimalist white avatar silhouette icon featuring a faceless head and shoulders on a solid yellow circular background, used for user profile placeholder, account image, or social media default avatar."
+                class="max-md:w-8 max-md:h-8 max-md:mr-10 mr-12 md:h-16 md:w-16 cursor-pointer rounded-full border-3 border-[#FACC15]"
+                id="profile-avatar" /></button
+          ></a>
+          <!-- the hamburger menu button -->
+          <button>
+            <img
+              src="https://i.imghippo.com/files/LKqc2461NZo.png"
+              alt="Three horizontal, rounded rectangular lines stacked vertically on a black background, resembling a minimalistic menu icon. The tone is simple and modern."
+              class="max-md:w-8 max-md:h-8 max-md:mr-8 max-md:ml-0 md:h-16 md:w-16 md:mr-12 cursor-pointer"
+              id="hamburger-menu" />
+          </button>
+        </div>
+      </nav>
+    </header>
+    <!-- header end -->
+    <!-- the div for all of the clickable menus, such as hamburger menu and new listing menu the content of the menus will be made dynamically with JS -->
+    <div id="toggle-element-container"></div>
+    <!-- the overall container for all of the main content of the page. -->
+    <main id="main-content-container" class="grow mt-4 mb-4">
+      <section
+        class="flex flex-col border-3 m-auto border-[#FACC15] bg-[#1E3A8A] text-white text-md font-Poppins font-semibold w-[75%] rounded-4xl">
+        <img
+          src="https://i.imghippo.com/files/l2163cxs.png"
+          class="w-full max-md:h-30 md:h-60 rounded-4xl -mt-1 border-b-3 border-[#FACC15]"
+          alt="A groupe of collegues smiling where one of them is holding a poster with the company logo on" />
+        <h1
+          class="text-3xl text-[#FACC15] font-Poppins font-bold text-center mb-4 mt-4">
+          CONTACT
+        </h1>
+        <div id="body-text-comtainer" class="p-4">
+          <p class="w-[90%] text-left">
+            BidSmart is a trusted, full-service auction company established in
+            2000, proudly celebrating 25 years of industry experience. Built on
+            a foundation of integrity, innovation, and customer-focused service,
+            BidSmart has become a leading name in the auction world—connecting
+            buyers and sellers through transparent, efficient, and
+            results-driven solutions.
+          </p>
+          <p class="w-[90%] text-left mt-2">
+            Over the past two decades, BidSmart has refined the art of
+            competitive bidding, offering both live and online auction services
+            across a wide range of categories, including estate assets, real
+            estate, equipment, vehicles, collectibles, and commercial
+            liquidations. Our seasoned team combines deep market knowledge with
+            cutting-edge technology to deliver maximum value and a seamless
+            auction experience.
+          </p>
+          <p class="w-[90%] text-left mt-2">
+            At BidSmart, our mission is simple: make smart bidding accessible
+            for everyone. Whether you're selling a single item or managing a
+            large-scale liquidation, we are committed to providing professional
+            guidance, strategic marketing, and exceptional service every step of
+            the way.
+          </p>
+          <p class="w-[90%] text-left mt-6">
+            BidSmart — 25 years of smarter auctions, stronger results.
+          </p>
+        </div>
 
-</head>
+        <div id="contac-info-container" class="flex flex-col p-4">
+          <h2 class="W-[90%] text-2xl mt-4 mb-2 text-[#FACC15] font-bold">
+            CONTACT
+          </h2>
+          <p class="text-md font-Poppins font-semibold text-white">
+            Phone: (+47) 55923184
+          </p>
+          <p class="text-md font-Poppins font-semibold text-white">
+            Email: customerservice@bidsmart-norway.no
+          </p>
 
-<body class="bg-[#E4E3E0] min-h-screen flex flex-col">
-  <!-- header start -->
-  <header>
-    <nav class="border-3 border-[#FACC15] bg-[#1E3A8A] flex flex-row items-center w-full ">
-      <!-- clickable logo to take the user back to home page. -->
-      <a href="../index.html"><button class="bg-transparent cursor-pointer ml-2">
-          <img src="https://i.imghippo.com/files/lwZc1015Zi.png"
-            alt="BidSmart logo featuring a gold gavel icon on a square background next to the word “BidSmart” in gold text, all on a transparent background."
-            id="main-logo" class="max-md:w-25 max-md:h-16 md:w-60 md:h-25" /></button></a>
-      <!-- the div for the search bar and the new listing icon -->
-      <!-- search bar -->
-      <div class="flex m-auto w-full items-center justify-center">
-        <input id="search" type="search" placeholder="SEARCH"
-          class="border-3 border-[#FACC15] rounded-4xl text-center placeholder:text-[#FFFFFF] max-md:w-20 max-md:h-10 md:w-93 md:h-15 focus:bg-white" />
-        <!-- the new listing clickable button for creating a new listing -->
-        <button
-          class="cursor-pointer bg-[url('https://i.imghippo.com/files/GCjf7875el.png')] mr-4 max-md:w-12 max-md:h-12 w-16 h-16 z-100 bg-center bg-cover bg-no-repeat hover:bg-[url('https://i.imghippo.com/files/BQqD1711yc.png')] hover:bg-center hover:bg-cover hover:bg-no-repeat"
-          id="new-post-button"></button>
+          <h2 class="W-[90%] text-2xl mt-4 mb-2 text-[#FACC15] font-bold">
+            ADDRESS
+          </h2>
+          <p class="text-md font-Poppins font-semibold text-white">
+            BidSmart Norway AS
+          </p>
+          <p class="text-md font-Poppins font-semibold text-white">
+            Fjordgata 28
+          </p>
+          <p class="text-md font-Poppins font-semibold text-white">
+            7050 Trondheim
+          </p>
+          <p class="text-md font-Poppins font-semibold text-white">Norway</p>
+
+          <h2 class="W-[90%] text-2xl mt-4 mb-2 text-[#FACC15] font-bold">
+            HOURS
+          </h2>
+          <p class="text-md font-Poppins font-semibold text-white">
+            Monday–Friday: 09:00 – 16:00
+          </p>
+          <p class="text-md font-Poppins font-semibold text-white">
+            Saturday: 10:00 – 14:00
+          </p>
+          <p class="text-md font-Poppins font-semibold text-white">
+            Sunday: Closed
+          </p>
+        </div>
+      </section>
+    </main>
+    <!-- footer with 3 clickable links that will take the user to different pages. with a trademark reminder at the bottom. -->
+    <footer class="border-3 border-[#FACC15] bg-[#1E3A8A] flex flex-col">
+      <div class="flex flex-col ml-4">
+        <a
+          href="../index.html"
+          class="text-white hover:border-b-3 hover:border-[#FACC15] w-fit mb-4 mt-2"
+          >HOME</a
+        >
+        <a
+          href="../html/contact.html"
+          class="text-white hover:border-b-3 hover:border-[#FACC15] w-fit mb-4"
+          >CONTACT</a
+        >
+        <a
+          href="../html/terms-and-conditions.html"
+          class="text-white hover:border-b-3 hover:border-[#FACC15] w-fit mb-4"
+          >TERMS & CONDITIONS</a
+        >
       </div>
-      <!-- the div for profile page and hamburger menu -->
-      <div class="flex justify-end">
-        <!-- the button for profile page -->
-        <a href="../html/profile-page.html"><button>
-            <img src="https://i.imghippo.com/files/Bnxk8228eY.png"
-              alt="Minimalist white avatar silhouette icon featuring a faceless head and shoulders on a solid yellow circular background, used for user profile placeholder, account image, or social media default avatar."
-              class="max-md:w-8 max-md:h-8 max-md:mr-10 mr-12 md:h-16 md:w-16 cursor-pointer" />
-          </button></a>
-        <!-- the hamburger menu button -->
-        <button>
-          <img src="https://i.imghippo.com/files/LKqc2461NZo.png"
-            alt="Three horizontal, rounded rectangular lines stacked vertically on a black background, resembling a minimalistic menu icon. The tone is simple and modern."
-            class="max-md:w-8 max-md:h-8 max-md:mr-8 max-md:ml-0 md:h-16 md:w-16 md:mr-12 cursor-pointer" id="hamburger-menu" />
-        </button>
-      </div>
-    </nav>
-  </header>
-  <!-- header end -->
-  <!-- the div for all of the clickable menus, such as hamburger menu and new listing menu the content of the menus will be made dynamically with JS -->
-  <div id="toggle-element-container"></div>
-  <!-- the overall container for all of the main content of the page. -->
-  <main id="main-content-container" class="grow"></main>
-  <!-- footer with 3 clickable links that will take the user to different pages. with a trademark reminder at the bottom. -->
-  <footer class="border-3 border-[#FACC15] bg-[#1E3A8A] flex flex-col">
-    <div class="flex flex-col ml-4">
-      <a href="../index.html" class="text-white hover:border-b-3 hover:border-[#FACC15] w-fit mb-4 mt-2">HOME</a>
-      <a href="../html/contact.html" class="text-white hover:border-b-3 hover:border-[#FACC15] w-fit mb-4">CONTACT</a>
-      <a href="../html/terms-and-conditions.html"
-        class="text-white hover:border-b-3 hover:border-[#FACC15] w-fit mb-4">TERMS & CONDITIONS</a>
-    </div>
-    <p class="text-white m-auto">© Bidsmart all rights perserved</p>
-  </footer>
-  <!-- JS script linking -->
-  <script src="../js/resuable.js"></script>
-  <script src="../js/profile-page.js"></script>
-</body>
-
+      <p class="text-white m-auto">© Bidsmart all rights perserved</p>
+    </footer>
+    <!-- JS script linking -->
+    <script src="../js/resuable.js"></script>
+  </body>
 </html>

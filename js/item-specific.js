@@ -12,9 +12,9 @@ mainContainer.appendChild(errorMessage);
 /* searching the params for the listing ID */
 const params = new URLSearchParams(window.location.search);
 const listingId = params.get("id");
-
 /* By default the highest bid will 0, will change once someone bids */
 let highestBid = 0;
+
 
 /* Fetching the listing, using accessToken as a signed in mock function, needs to have API Key to communicate with API */
 async function fetchSingleListing() {
@@ -54,33 +54,40 @@ async function fetchSingleListing() {
 /* A function that will render and display the html needed */
 function renderItemPage(listing) {
   mainContainer.innerHTML = "";
-  mainContainer.className =
-    "grow";
-
+  mainContainer.className = "grow";
+  /* Changing the page name to the same name as the listing */
+  document.title = `${listing.title} | Bidsmart`;
+  
+  /* needs another wrapper Creating it */
+  const layoutWrapper = document.createElement("section");
+  layoutWrapper.className =
+    "max-w-6xl mx-auto flex flex-col lg:flex-row gap-6 p-4";
   /* A section div for the left column items for placement */
   const leftColumn = document.createElement("section");
-  leftColumn.className = "";
+  leftColumn.className = "flex flex-col gap-4";
 
   const itemGrid = document.createElement("div");
-  itemGrid.className = "grid grid-cols-1 md:grid-cols-2 items-stretch";
+  itemGrid.className =
+    "grid grid-cols-1 md:grid-cols-2 items-stretch m-4";
 
   /* Creating a wrapper for the media, if no media is found a default will be displayed */
   const imageWrapper = document.createElement("div");
-  imageWrapper.className = "flex justify-center mt-2 mb-2 h-fit";
+  imageWrapper.className =
+    "flex justify-center items-center border-3 border-[#FACC15] rounded-4xl p-2 h-full";
 
   /* Creating the images and getting all of them from the API */
   const itemImage = document.createElement("img");
   itemImage.src =
     listing.media?.[0]?.url || "https://i.imghippo.com/files/Ktl1265wvk.png";
   itemImage.alt = listing.media?.[0]?.alt || listing.title;
-  itemImage.className = "border-3 border-[#FACC15] rounded-4xl w-full h-full";
+  itemImage.className = "rounded-4xl w-full h-full object-contain";
 
   imageWrapper.appendChild(itemImage);
 
   /* Creating a wrapper to hold all of the text such as, title, description, seller info, bidcount, endtime, countdown, bid buttom , bid input area, bid label */
   const detailsWrapper = document.createElement("div");
   detailsWrapper.className =
-    "border-3 border-[#FACC15] bg-[#1E3A8A] rounded-4xl text-white flex flex-col gap-4 text-center p-2 h-fit";
+    "border-3 border-[#FACC15] bg-[#1E3A8A] rounded-4xl text-white flex flex-col gap-4 text-center p-4 h-full";
 
   /* Creating the title of the listing */
   const auctionItemTitle = document.createElement("h1");
@@ -88,16 +95,17 @@ function renderItemPage(listing) {
   auctionItemTitle.className =
     "text-[#FACC15] text-[2rem] text-center font-semibold";
 
-    /* Creating the description of the listing */
+  /* Creating the description of the listing */
   const auctionItemDescription = document.createElement("p");
-  auctionItemDescription.className = "text-md text-center"
+  auctionItemDescription.className = "text-md text-center";
   auctionItemDescription.textContent =
     listing.description || "No description provided";
 
-    /* Displaying the seller */
+  /* Displaying the seller */
   const auctionItemSeller = document.createElement("p");
   auctionItemSeller.textContent = `Seller: ${
-    listing.seller?.name || "Unknown"}`;
+    listing.seller?.name || "Unknown"
+  }`;
   auctionItemSeller.className = "text-md";
 
   /* Creating a counter that tells the buyer how many bids has been placed */
@@ -114,14 +122,14 @@ function renderItemPage(listing) {
     const now = new Date();
     const end = new Date(listing.endsAt);
     const diff = end - now;
-    
+
     /* Checks to see if the differense is less or equal to 0 if yes, then the countdown stops and endtime textcontent will be "ENDED" */
     if (diff <= 0) {
       auctionItemEndTime.textContent = "ENDED";
       clearInterval(timer);
       return;
     }
-    
+
     /* Quick maths to make sure that the days hours minutes and seconds are correctly counted. */
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
@@ -139,32 +147,34 @@ function renderItemPage(listing) {
   /* Creating a wrapper for the bidding part of the page */
   const bidWrapper = document.createElement("div");
   bidWrapper.className = "mt-4 flex flex-col gap-2";
-  
+
   /* Creating a wrapper for the label and input */
   const labelandInputWrapper = document.createElement("div");
-  labelandInputWrapper.className = "flex flex-row gap-2 items-center justify-center";
+  labelandInputWrapper.className =
+    "flex flex-row gap-2 items-center justify-center";
 
   /* Creating a label for the input field */
   const bidLabel = document.createElement("p");
   bidLabel.textContent = "Bid on this item!";
-  bidLabel.className = "text-md font-bold font-Poppins"
-    
+  bidLabel.className = "text-md font-bold font-Poppins";
+
   /* Creating the bid input */
   const bidInput = document.createElement("input");
   bidInput.type = "number";
   bidInput.placeholder = `Minimum bid: ${highestBid + 1}`;
-  bidInput.className = "rounded-4xl w-fit text-center p-2 text-black w-40 bg-[#E4E3E0] placeholder:text-[#5D5B5B] border-3 border-[#FACC15]";
+  bidInput.className =
+    "rounded-4xl w-fit text-center p-2 text-black w-40 bg-[#E4E3E0] placeholder:text-[#5D5B5B] border-3 border-[#FACC15]";
   /* Creating the bid button and adding a eventlistener to make sure that the function are working. */
   const bidButton = document.createElement("button");
   bidButton.textContent = "BID";
   bidButton.className =
     "mt-2 mb-4 border-3 border-[#FACC15] text-center m-auto w-fit px-10 py-2 rounded-4xl bg-[#059669] hover:bg-[#04875F] cursor-pointer";
- /* The addEventListener that take the value of the users input in the bidInput field, and submits the input */
+  /* The addEventListener that take the value of the users input in the bidInput field, and submits the input */
   bidButton.addEventListener("click", () => {
     const amount = Number(bidInput.value);
     submitBid(listing.id, amount);
   });
-  labelandInputWrapper.append(bidLabel, bidInput)
+  labelandInputWrapper.append(bidLabel, bidInput);
   bidWrapper.append(labelandInputWrapper, bidButton);
 
   detailsWrapper.append(
@@ -177,12 +187,11 @@ function renderItemPage(listing) {
   );
 
   itemGrid.append(imageWrapper, detailsWrapper);
-  leftColumn.appendChild(itemGrid);
 
   /* The box for the bidding history */
   const bidHistory = document.createElement("aside");
   bidHistory.className =
-    "border-3 border-[#FACC15] bg-[#1E3A8A] rounded-4xl p-4 text-white";
+    "border-3 border-[#FACC15] bg-[#1E3A8A] rounded-4xl p-4 text-white w-full";
   /* the h2 title of the box the word (BID HISTROY) */
   const historyTitle = document.createElement("h2");
   historyTitle.textContent = "BID HISTORY";
@@ -206,18 +215,20 @@ function renderItemPage(listing) {
       });
   }
 
-  mainContainer.append(leftColumn, bidHistory);
+  leftColumn.append(itemGrid, bidHistory);
+  layoutWrapper.appendChild(leftColumn);
+  mainContainer.appendChild(layoutWrapper);
 }
 
 /* The function that submits the bid that user has given in the input field */
 async function submitBid(listingId, amount) {
-    /* Checks to see if the amount that the user has submitted is higher than the last bid. */
-    /* if not, the user will be given an alert that informs the user about the last bid amount */
+  /* Checks to see if the amount that the user has submitted is higher than the last bid. */
+  /* if not, the user will be given an alert that informs the user about the last bid amount */
   if (amount <= highestBid) {
     alert(`Bid must be higher than current highest bid ${highestBid}`);
     return;
   }
-/* if the bid is higher than the submitted amount is taken and posted to the API */
+  /* if the bid is higher than the submitted amount is taken and posted to the API */
   try {
     const response = await fetch(`${apiUrl}/${listingId}/bids`, {
       method: "POST",
@@ -237,9 +248,8 @@ async function submitBid(listingId, amount) {
     /* if the there are any issues then the catch condition will capture the issue and alert the user. */
   } catch (error) {
     console.error(error);
-    alert("Unable to place bid");
+    alert("Unable to submit the bid, please make sure that the auction is currently live!");
   }
 }
-
 /* Calls the functions */
 fetchSingleListing();
