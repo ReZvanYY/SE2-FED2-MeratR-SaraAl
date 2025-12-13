@@ -782,8 +782,8 @@ function renderBiddedListings(bids, container) {
   bids.forEach((bid) => {
     const bidListing = bid.listing;
     if (bidListing && bidListing.id && !seenListingIds.has(bidListing.id)) {
-      seenListingIds.add(listing.id);
-      const createdBidRow = createListingRow(listing, false);
+      seenListingIds.add(bidListing.id);
+      const createdBidRow = createListingRow(bidListing, false);
       container.appendChild(createdBidRow);
     }
   });
