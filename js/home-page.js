@@ -38,14 +38,14 @@ function renderUserListing(listings) {
   /* clearing any element in the main container */
   mainContainer.innerHTML = "";
   mainContainer.className =
-    "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 mt-4 m-auto gap-12 max-md:gap-3";
+    "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mt-4 m-auto gap-12 max-md:gap-3";
 
   /* Creating a fully functinal card for each listing created in this API */
   listings.forEach((post) => {
     /* Creating the container, the card itself */
     const card = document.createElement("article");
     card.className =
-      "cursor-pointer bg-[#1E3A8A] border-2 border-[#FACC15] flex flex-col max-md:w-35 md:w-50 lg:w-60 rounded-4xl m-2";
+      "cursor-pointer bg-[#1E3A8A] border-2 border-[#FACC15] flex flex-col max-md:w-35 md:w-50 lg:w-50 xl:w-51.5 rounded-4xl m-2";
     card.onclick = () => {
         window.location.href = `/html/item-specific.html?id=${post.id}`;
     }

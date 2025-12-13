@@ -1591,6 +1591,26 @@
       height: calc(var(--spacing) * 100);
     }
   }
+  .lg\:w-5 {
+    @media (width >= 64rem) {
+      width: calc(var(--spacing) * 5);
+    }
+  }
+  .lg\:w-6 {
+    @media (width >= 64rem) {
+      width: calc(var(--spacing) * 6);
+    }
+  }
+  .lg\:w-50 {
+    @media (width >= 64rem) {
+      width: calc(var(--spacing) * 50);
+    }
+  }
+  .lg\:w-55 {
+    @media (width >= 64rem) {
+      width: calc(var(--spacing) * 55);
+    }
+  }
   .lg\:w-60 {
     @media (width >= 64rem) {
       width: calc(var(--spacing) * 60);
@@ -1609,6 +1629,61 @@
   .lg\:grid-cols-4 {
     @media (width >= 64rem) {
       grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .xl\:w-5 {
+    @media (width >= 80rem) {
+      width: calc(var(--spacing) * 5);
+    }
+  }
+  .xl\:w-5\.5 {
+    @media (width >= 80rem) {
+      width: calc(var(--spacing) * 5.5);
+    }
+  }
+  .xl\:w-6 {
+    @media (width >= 80rem) {
+      width: calc(var(--spacing) * 6);
+    }
+  }
+  .xl\:w-51\.5 {
+    @media (width >= 80rem) {
+      width: calc(var(--spacing) * 51.5);
+    }
+  }
+  .xl\:w-52 {
+    @media (width >= 80rem) {
+      width: calc(var(--spacing) * 52);
+    }
+  }
+  .xl\:w-52\.5 {
+    @media (width >= 80rem) {
+      width: calc(var(--spacing) * 52.5);
+    }
+  }
+  .xl\:w-55 {
+    @media (width >= 80rem) {
+      width: calc(var(--spacing) * 55);
+    }
+  }
+  .xl\:w-60 {
+    @media (width >= 80rem) {
+      width: calc(var(--spacing) * 60);
+    }
+  }
+  .xl\:w-550 {
+    @media (width >= 80rem) {
+      width: calc(var(--spacing) * 550);
+    }
+  }
+  .xl\:grid-cols-4 {
+    @media (width >= 80rem) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .xl\:grid-cols-5 {
+    @media (width >= 80rem) {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
     }
   }
 }
