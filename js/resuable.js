@@ -1,8 +1,8 @@
 /* This file will be used to store all of the functions that are resuable.
 such as:
-- drop down menus
-- new listing creation
-- seach functions
+- Drop down menus
+- New listing creation
+- Search functions
 */
 
 /* If the local storage has an accessToken, then the user is signed in */
@@ -62,12 +62,12 @@ function renderToggleMenu() {
     hamburgerMenuToggle.appendChild(welcomeMessage);
 
     /* if signed in the buttons in the toggled hamburger menu will be 
-            -HOME
-            -Profile
-            -Purchase credit
-            -Contact
-            -Sign out
-        */
+                -HOME
+                -Profile
+                -Purchase credit
+                -Contact
+                -Sign out
+            */
 
     const homeButton = document.createElement("button");
     homeButton.textContent = "HOME";
@@ -113,11 +113,11 @@ function renderToggleMenu() {
     hamburgerMenuToggle.appendChild(signOutButton);
   } else {
     /* if signed out, the buttons in the toggle menu will be;
-        -Home
-        -Contact
-        -Sign in
-        -Sign up
-         */
+            -Home
+            -Contact
+            -Sign in
+            -Sign up
+             */
 
     const homeButton = document.createElement("button");
     homeButton.textContent = "HOME";
@@ -170,12 +170,12 @@ function renderCreateListingMenu() {
   newListingWrapper.className = "flex flex-col w-[75%]";
 
   /* The listing needs to have; 
-  -Title
-  -Description 
-  -Media photos/images atleast 1.
-  -Helper link / info text for public url photos/images.
-  -Button to add more input fields for more media files.
-  -Deadline date. */
+    -Title
+    -Description 
+    -Media photos/images atleast 1.
+    -Helper link / info text for public url photos/images.
+    -Button to add more input fields for more media files.
+    -Deadline date. */
   /* title */
   const listingTitle = document.createElement("h3");
   listingTitle.textContent = "LISTING TITLE";
@@ -185,7 +185,8 @@ function renderCreateListingMenu() {
 
   const titleInput = document.createElement("input");
   titleInput.placeholder = "Listing Title";
-  titleInput.className = "placeholder:text-[#424242] text-black bg-[#D9D9D9] border-3 border-[#FACC15] rounded-4xl p-2";
+  titleInput.className =
+    "placeholder:text-[#424242] text-black bg-[#D9D9D9] border-3 border-[#FACC15] rounded-4xl p-2";
   newListingWrapper.appendChild(titleInput);
 
   /* Description */
@@ -214,7 +215,8 @@ function renderCreateListingMenu() {
 
   const mediaInput = document.createElement("input");
   mediaInput.placeholder = "Public URL Only";
-  mediaInput.className = "placeholder:text-[#424242] text-black bg-[#D9D9D9] border-3 border-[#FACC15] rounded-4xl p-2";
+  mediaInput.className =
+    "placeholder:text-[#424242] text-black bg-[#D9D9D9] border-3 border-[#FACC15] rounded-4xl p-2";
   mediaWrapper.appendChild(mediaInput);
 
   /* info text to help the user get the public url needed for their listing */
@@ -229,7 +231,7 @@ function renderCreateListingMenu() {
   const plussOneMediaButton = document.createElement("button");
   plussOneMediaButton.textContent = "+1";
   plussOneMediaButton.className =
-"border-2 border-[#FACC15] rounded-3xl text-white text-[1.5rem] font-Poppins font-bold bg-[#059669] hover:bg-[#04875F] cursor-pointer m-auto mb-4 w-16 h-8";
+    "border-2 border-[#FACC15] rounded-3xl text-white text-[1.5rem] font-Poppins font-bold bg-[#059669] hover:bg-[#04875F] cursor-pointer m-auto mb-4 w-16 h-8";
 
   /* Onclick function to add more media inputfields for more images/photos */
   plussOneMediaButton.onclick = () => {
@@ -250,7 +252,8 @@ function renderCreateListingMenu() {
 
   const deadlineInput = document.createElement("input");
   deadlineInput.type = "datetime-local";
-  deadlineInput.className = "placeholder:text-[#424242] text-black bg-[#D9D9D9] border-3 border-[#FACC15] rounded-4xl p-2 mb-4";
+  deadlineInput.className =
+    "placeholder:text-[#424242] text-black bg-[#D9D9D9] border-3 border-[#FACC15] rounded-4xl p-2 mb-4";
   newListingWrapper.appendChild(deadlineInput);
 
   /* Publish listing button */
@@ -277,24 +280,22 @@ function renderCreateListingMenu() {
       }
     });
     const listingData = {
-        title: titleInput.value.trim(),
-        description: descriptionInput.value.trim(),
-        endsAt: deadlineInput.value,
-        media
+      title: titleInput.value.trim(),
+      description: descriptionInput.value.trim(),
+      endsAt: deadlineInput.value,
+      media,
     };
     try {
-        const apiUrl = "https://v2.api.noroff.dev/auction/listings";
-        const response = await fetch(apiUrl,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            "X-Noroff-API-KEY" : `${localStorage.getItem("apiKey")}`,
-          },
-          body: JSON.stringify(listingData),
-        }
-      );
+      const apiUrl = "https://v2.api.noroff.dev/auction/listings";
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          "X-Noroff-API-KEY": `${localStorage.getItem("apiKey")}`,
+        },
+        body: JSON.stringify(listingData),
+      });
       if (!response.ok) {
         throw new Error(
           "Failed to create listing! Unable to reach API Endpoint."
@@ -359,9 +360,187 @@ function closeCreateListingMenu() {
 }
 /* Closing function when clicked outside of the border of the element */
 document.addEventListener("click", (e) => {
-    const target = e.target;
-    if(!hamburgerMenuToggle.contains(target) && target !== hamburgerMenuButton){
-        closeMenu();
-    }
-  });
+  const target = e.target;
+  if (!hamburgerMenuToggle.contains(target) && target !== hamburgerMenuButton) {
+    closeMenu();
+  }
+});
 /* Search function for searching for different posts based on postname and user. */
+/* Connecting the search bar inputfield  */
+const searchBarInput = document.getElementById("search");
+
+/* Creating a div for the search result to be shown in */
+let searchResultContainer = document.getElementById("search-result");
+
+if (!searchResultContainer && dropDownArea) {
+  searchResultContainer = document.createElement("div");
+  searchResultContainer.id = "search-result";
+  searchResultContainer.className = "";
+  dropDownArea.appendChild(searchResultContainer);
+}
+async function searchListings(query) {
+  const q = query.trim();
+  if (!q) return [];
+
+  const listingUrl = `https://v2.api.noroff.dev/auction/listings/search?q=${encodeURIComponent(
+    q
+  )}&_active=true&_bids=true`;
+
+  const headers = { "Content-Type": "application/json" };
+  const apiKey = localStorage.getItem("apiKey");
+
+  if (apiKey) {
+    headers["X-Noroff-API-KEY"] = apiKey;
+  }
+
+  const response = await fetch(listingUrl, { headers });
+
+  if (!response.ok) {
+    throw new Error("Unable to search for listings.");
+  }
+  const result = await response.json();
+  return result.data || [];
+}
+
+async function searchUsers(query) {
+  const q = query.trim();
+  if (!q) return [];
+
+  const profileUrl = `https://v2.api.noroff.dev/auction/profiles/search?q=${encodeURIComponent(
+    q
+  )}`;
+
+  const headers = { "Content-Type": "application/json" };
+
+  const token = localStorage.getItem("accessToken");
+  const storageApiKey = localStorage.getItem("apiKey");
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+  if (storageApiKey) {
+    headers["X-Noroff-API-KEY"] = storageApiKey;
+  }
+
+  const response = await fetch(profileUrl, { headers });
+
+  if (!response.ok) {
+    console.error("Failed to search for user.", response.status);
+    return [];
+  }
+
+  const result = await response.json();
+  return result.data || [];
+}
+
+function renderSearchResults(listings, users) {
+  if (!searchResultContainer) return;
+
+  searchResultContainer.innerHTML = "";
+
+  const hasListings = Array.isArray(listings) && listings.length > 0;
+  const hasUsers = Array.isArray(users) && users.length > 0;
+
+  if (!hasListings && !hasUsers) {
+    const message = document.createElement("p");
+    message.textContent = "No search result found";
+    message.className = "text-[#FF0012] font-semibold m-auto";
+    searchResultContainer.appendChild(message);
+    return;
+  }
+  if (hasListings) {
+    listings.forEach((listing) => {
+      const searchCard = document.createElement("article");
+      searchCard.className =
+        "flex flex-row text-[#FACC15] text-[1.1rem] text-left font-semibold font-Poppins border-3 border-[#FACC15] rounded-4xl bg-gray-300 hover:bg-[#1E3A8A] cursor-pointer";
+
+      const searchTitle = document.createElement("h3");
+      searchTitle.textContent = listing.title || "Untitled Listing";
+      searchTitle.className = "m-2";
+      searchCard.appendChild(searchTitle);
+
+      if (
+        Array.isArray(listing.media) &&
+        listing.media.length &&
+        listing.media[0].url
+      ) {
+        const searchImg = document.createElement("img");
+        searchImg.src = listing.media[0].url;
+        searchImg.alt =
+          listing.media[0].alt || listing.title || "an image of the listing";
+        searchImg.className = "w-12 h-12 rounded-full m-2 object-cover";
+        searchCard.appendChild(searchImg);
+      }
+
+      searchCard.onclick = () => {
+        window.location.href = `/html/item-specific.html?id=${listing.id}`;
+      };
+      searchResultContainer.appendChild(searchCard);
+    });
+  }
+  if (hasUsers) {
+    users.forEach((user) => {
+      const userCard = document.createElement("article");
+      userCard.className =
+        "flex flex-row text-[#FACC15] text-[1.1rem] text-left font-semibold font-Poppins border-3 border-[#FACC15] rounded-4xl bg-gray-300 hover:bg-[#1E3A8A] cursor-pointer";
+
+      const userInfoContainer = document.createElement("div");
+      userInfoContainer.className = "flex flex-row";
+
+      if (user.avatar && user.avatar.url) {
+        const userAvatar = document.createElement("img");
+        userAvatar.src = user.avatar.url;
+        userAvatar.alt =
+          user.avatar.alt || user.name || "Users profile picture";
+        userAvatar.className = "w-12 h-12 rounded-full object-cover";
+        userInfoContainer.appendChild(userAvatar);
+      }
+
+      const userName = document.createElement("h3");
+      userName.textContent = user.name || "Unknown user";
+      userName.className =
+        "text-[#FACC15] text-[1.1rem] text-left font-semibold font-Poppins";
+      userInfoContainer.appendChild(userName);
+
+      userCard.appendChild(userInfoContainer);
+
+      userCard.onclick = () => {
+        window.location.href = `/html/profile-page.html?name=${encodeURIComponent(
+          user.name)}`;
+      };
+      searchResultContainer.appendChild(userCard);
+    });
+  }
+}
+
+async function handleSearch() {
+  if (!searchBarInput || !searchResultContainer) return;
+
+  const q = searchBarInput.value.trim();
+
+  if (!q) {
+    searchResultContainer.innerHTML = "";
+    return;
+  }
+
+  searchResultContainer.innerHTML =
+    '<p class="text-[#FACC15] font-bold m-auto">Searching...</p>';
+
+  try {
+    const [listings, users] = await Promise.all([
+      searchListings(q),
+      searchUsers(q),
+    ]);
+    renderSearchResults(listings, users);
+  } catch (error) {
+    console.error(error);
+    searchResultContainer.innerHTML =
+      '<p class="text-[#FF0004] font-bold m-auto text-center">Searched Failed! Please try again!</p>';
+  }
+}
+
+if (searchBarInput) {
+  searchBarInput.addEventListener("keyup", (e) => {
+    handleSearch();
+  });
+}

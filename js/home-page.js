@@ -38,14 +38,14 @@ function renderUserListing(listings) {
   /* clearing any element in the main container */
   mainContainer.innerHTML = "";
   mainContainer.className =
-    "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4 m-auto gap-12";
+    "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mt-4 m-auto gap-12 max-md:gap-3";
 
   /* Creating a fully functinal card for each listing created in this API */
   listings.forEach((post) => {
     /* Creating the container, the card itself */
     const card = document.createElement("article");
     card.className =
-      "cursor-pointer bg-[#1E3A8A] border-2 border-[#FACC15] flex flex-col w-45 md:w-50 lg:w-60 rounded-4xl m-2";
+      "cursor-pointer bg-[#1E3A8A] border-2 border-[#FACC15] flex flex-col max-md:w-35 md:w-50 lg:w-50 xl:w-51.5 rounded-4xl m-2";
     card.onclick = () => {
         window.location.href = `/html/item-specific.html?id=${post.id}`;
     }
@@ -55,7 +55,7 @@ function renderUserListing(listings) {
       post.media?.[0]?.url || "https://i.imghippo.com/files/Ktl1265wvk.png";
     listingImg.alt = post.media?.[0]?.alt || post.title;
     listingImg.className =
-      "w-40 h-35 object-fit border-3 flex m-auto mt-2 rounded-4xl";
+      "max-md:w-30 w-40 h-35 object-fit flex m-auto mt-2 rounded-4xl";
     card.appendChild(listingImg);
 
     /* Creating a wrapper for hold the information elements of the listing */
