@@ -86,7 +86,6 @@ function renderToggleMenu() {
     /* if signed in the buttons in the toggled hamburger menu will be 
                 -HOME
                 -Profile
-                -Purchase credit
                 -Contact
                 -Sign out
             */
@@ -108,15 +107,6 @@ function renderToggleMenu() {
       window.location.href = "/html/profile-page.html";
     };
     hamburgerMenuToggle.appendChild(profileButton);
-
-    const purchaseCreditButton = document.createElement("button");
-    purchaseCreditButton.textContent = "PURCHASE CREDIT";
-    purchaseCreditButton.className =
-      "hover:border-b-3 w-fit m-2 font-Poppins font-bold text-[#FACC15] text-[1.5rem] cursor-pointer";
-    purchaseCreditButton.onclick = () => {
-      window.location.href = "/html/purchase-credit.html";
-    };
-    hamburgerMenuToggle.appendChild(purchaseCreditButton);
 
     const contactButton = document.createElement("button");
     contactButton.textContent = "CONTACT";

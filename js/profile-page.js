@@ -83,11 +83,9 @@ async function fetchUserListings(name) {
 }
 
 /* Fetching the users bidding history */
-async function fetchUserBids(name) {
+async function fetchUserBids(profileName) {
   /* This is the API url for fetching a specific profile. */
-  const fetchBidsUrl = `${baseApiUrl}/auction/profiles/${encodeURIComponent(
-    name
-  )}/bids`;
+  const fetchBidsUrl = `${baseApiUrl}/auction/profiles/${profileName}/bids?_listings=true`;
 
   /* API options */
   const headers = { "Content-Type": "application/json" };
@@ -108,7 +106,7 @@ async function fetchUserBids(name) {
   }
   /* creating a constant that will be checking the result of the response that is being sent out */
   const bidsResultData = await fetchBidsResponse.json();
-  return bidsResultData.data;
+  return bidsResultData;
 }
 
 /* A function that will allows the user to change their profile picture, banner and bio whenever */
@@ -697,7 +695,7 @@ function renderProfile(profile, uiElements) {
           renderProfile(updatedAvatar, uiElements);
           alert("Profile Picture updated!");
         } catch (ProfilePictureUpdateError) {
-          console.log(ProfilePictureUpdateError);
+          console.error(ProfilePictureUpdateError);
           alert("Unable to update the profile picture");
         }
       };
@@ -715,7 +713,7 @@ function renderProfile(profile, uiElements) {
           renderProfile(updatedBio, uiElements);
           alert("Bio updated!");
         } catch (bioUpdateError) {
-          console.log(bioUpdateError);
+          console.error(bioUpdateError);
           alert("Unable to update the bio");
         }
       };
@@ -732,7 +730,7 @@ function renderProfile(profile, uiElements) {
           renderProfile(updatedBanner, uiElements);
           alert("Profile banner updated!");
         } catch (bannerUpdateError) {
-          console.log(bannerUpdateError);
+          console.error(bannerUpdateError);
           alert("Unable to update the profile banner");
         }
       };
@@ -765,31 +763,28 @@ function renderCreatedListings(listings, container, withActions) {
 }
 
 /* Function that will check and display any bidding the user has "Bidded? bid? (Brain.status = 404)" */
-function renderBiddedListings(bids, container) {
-  if (!container) return;
-  container.innerHTML = "";
-  /* Checking to see if the user has bid on any listings, if not a default message will display */
-  if (!bids || !bids.length) {
-    const defaultBidsMessage = document.createElement("p");
-    defaultBidsMessage.textContent = "NO bids found yet";
-    defaultBidsMessage.className =
-      "text-center text-white text-[1.25rem] font-bold font-Poppins";
-    container.appendChild(defaultBidsMessage);
-    return;
-  }
-  /* Creating a row for each listing that the user has bid on */
-  const seenListingIds = new Set();
-  bids.forEach((bid) => {
-    const bidListing = bid.listing;
-    if (bidListing && bidListing.id && !seenListingIds.has(bidListing.id)) {
-      seenListingIds.add(bidListing.id);
-      const createdBidRow = createListingRow(bidListing, false);
-      container.appendChild(createdBidRow);
+async function renderBiddedListings(bids, container) {
+  if (bids && Array.isArray(bids.data)) {
+    for (const bid of bids.data) {
+  
+      const bidlisting = bid.listing; 
+
+      if (bidlisting && bidlisting.id) {
+        try {
+          const Bidsrow = createListingRow(bidlisting, false);
+          container.appendChild(Bidsrow);
+        } catch (creationError) {
+          console.error("Failed to create row for bidded listing:", bid, creationError);
+        }
+      } else {
+        console.warn("Listing data is missing or invalid for bid:", bid);
+      }
     }
-  });
+  }
+
   if (!container.children.length) {
     const defaultMessageContainer = document.createElement("p");
-    defaultMessageContainer.textContent = "No listing found for your bids";
+    defaultMessageContainer.textContent = "No Bids found!";
     defaultMessageContainer.className =
       "text-center text-white text-[1.25rem] font-bold font-Poppins";
     container.appendChild(defaultMessageContainer);
@@ -826,7 +821,7 @@ async function initProfilePage() {
         uiElements.createdContainer,
         isOwnProfile
       );
-      renderBiddedListings(bids, uiElements.biddedContainer);
+      await renderBiddedListings(bids, uiElements.biddedContainer);
     } catch (loadingProfileError) {
       console.error(loadingProfileError);
       uiElements.userName.textContent = "FAILED TO LOAD PROFILE";
