@@ -39,6 +39,12 @@ Storage: localStorage for access tokens, user info, and API keys.
 ## Installation
 Clone the repository:
 git clone <repository-url>
+
+Install dependencies
+npm install
+Run the development server
+npm run dev
+
 Open index.html or any page in a browser to run the app.
 Make sure to have internet access to connect to the Noroff API.
 
