@@ -1,7 +1,9 @@
 /* API Url for later use */
-const apiUrl = "https://v2.api.noroff.dev/auction/listings?_active=true&sort=created&sortOrder=desc&_seller=true";
+const apiUrl =
+  "https://v2.api.noroff.dev/auction/listings?_active=true&sort=created&sortOrder=desc&_seller=true";
 /* Connecting the main container from the HTML file */
 const mainContainer = document.getElementById("main-content-container");
+const carouselContainer = document.getElementById("carousel-container");
 
 /* Error container */
 const errorMessage = document.createElement("p");
@@ -18,14 +20,14 @@ async function fetchListings() {
         "X-Noroff-API-Key": `${localStorage.getItem("apiKey")}`,
       },
     });
-    if(!response.ok){
-        console.error("Failed to fetch listings")
+    if (!response.ok) {
+      console.error("Failed to fetch listings");
     }
     /* Gets the result from the API */
     const result = await response.json();
 
-    const sortedListings = (result.data || []).sort((a, b) =>{
-        return new Date(b.created) - new Date(a.created);
+    const sortedListings = (result.data || []).sort((a, b) => {
+      return new Date(b.created) - new Date(a.created);
     });
     renderUserListing(sortedListings);
   } catch (error) {
@@ -33,6 +35,87 @@ async function fetchListings() {
     errorMessage.textContent = "Unable to fetch data, please try again later.";
   }
 }
+/* Fetch the 20 newest listings */
+async function fetchCarouselListings() {
+  try {
+    const response = await fetch(apiUrl, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        "X-Noroff-API-Key": localStorage.getItem("apiKey"),
+      },
+    });
+    if (!response.ok) throw new Error("Failed to fetch carousel listings");
+    const result = await response.json();
+    const latestListings = (result.data || []).slice(0, 20);
+    startCarousel(latestListings);
+  } catch (error) {
+    console.error("Error fetching carousel listings:", error);
+    errorMessage.textContent = "Unable to fetch carousel data.";
+  }
+}
+function createCarouselCard(post) {
+  const card = document.createElement("article");
+  card.className =
+    "w-[90%] flex flex-col rounded-4xl border-2 border-[#FACC15] p-4 cursor-pointer bg-[#1E3A8A] hover:scale-[1.02] transition-transform m-auto mt-4";
+
+  card.addEventListener("click", () => {
+    window.location.href = `/html/item-specific.html?id=${post.id}`;
+  });
+
+  const img = document.createElement("img");
+  img.src = post.media?.[0]?.url || "https://i.imghippo.com/files/Ktl1265wvk.png";
+  img.alt = post.title;
+  img.className = "w-full h-[12rem] object-cover rounded-4xl";
+  card.appendChild(img);
+
+  const title = document.createElement("h3");
+  title.textContent = post.title;
+  title.className = "text-[#FACC15] font-bold text-center mt-2";
+  card.appendChild(title);
+
+  /* Countdown timer */
+  const countdown = document.createElement("p");
+  countdown.className = "text-[1.15rem] text-[#FF0012] font-bold text-center mt-1";
+  card.appendChild(countdown);
+
+  function updateCountdown() {
+    const now = new Date();
+    const end = new Date(post.endsAt);
+    const diff = end - now;
+
+    if (diff <= 0) {
+      countdown.textContent = "ENDED";
+      clearInterval(timer);
+      return;
+    }
+
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const m = Math.floor((diff / (1000 * 60)) % 60);
+    const s = Math.floor((diff / 1000) % 60);
+
+    countdown.textContent = `${d} Days ${h} Hours ${m} Minutes ${s} Seconds`;
+  }
+
+  const timer = setInterval(updateCountdown, 1000);
+  updateCountdown();
+
+  return card;
+}
+
+/* Start carousel loop */
+function startCarousel(listings) {
+  let index = 0;
+  carouselContainer.innerHTML = "";
+  carouselContainer.appendChild(createCarouselCard(listings[index]));
+
+  setInterval(() => {
+    index = (index + 1) % listings.length;
+    carouselContainer.innerHTML = "";
+    carouselContainer.appendChild(createCarouselCard(listings[index]));
+  }, 3000); // change card every 3 seconds
+}
+
 /* Creating a function to render the cards needed for posts. */
 function renderUserListing(listings) {
   /* clearing any element in the main container */
@@ -45,10 +128,10 @@ function renderUserListing(listings) {
     /* Creating the container, the card itself */
     const card = document.createElement("article");
     card.className =
-      "cursor-pointer bg-[#1E3A8A] border-2 border-[#FACC15] flex flex-col max-md:w-35 md:w-50 lg:w-50 xl:w-51.5 rounded-4xl m-2";
+      "w-full flex flex-col rounded-4xl p-2 border-2 border-[#FACC15] cursor-pointer hover:scale-[1.02] transition-transform bg-[#1E3A8A]";
     card.onclick = () => {
-        window.location.href = `/html/item-specific.html?id=${post.id}`;
-    }
+      window.location.href = `/html/item-specific.html?id=${post.id}`;
+    };
     /* creating the img of the cards */
     const listingImg = document.createElement("img");
     listingImg.src =
@@ -60,25 +143,27 @@ function renderUserListing(listings) {
 
     /* Creating a wrapper for hold the information elements of the listing */
     const contentWrapper = document.createElement("div");
-    contentWrapper.className = "flex flex-col items-center text-center justify-center m-auto";
+    contentWrapper.className =
+      "flex flex-col items-center text-center justify-center m-auto";
     card.appendChild(contentWrapper);
 
     /* creating the title for the cards */
     const listingTitle = document.createElement("h2");
     listingTitle.textContent = post.title;
-    listingTitle.className = "text-[#FACC15] font-Poppins font-semibold text-[1.5rem]";
+    listingTitle.className =
+      "text-[#FACC15] font-Poppins font-semibold text-[1.5rem]";
     contentWrapper.appendChild(listingTitle);
 
     /* Sellers name on the card */
     const sellerName = document.createElement("p");
     sellerName.textContent = post.seller?.name || "Unknown Seller";
     sellerName.className = "text-white";
-    contentWrapper.appendChild(sellerName)
+    contentWrapper.appendChild(sellerName);
 
     /* Creating the countdown for the listing in the card  */
     const countDownElement = document.createElement("p");
     countDownElement.className =
-      "text-[1.25rem] text-[#FF0012] font-bold font-Poppins";
+      "text-[1.15rem] text-[#FF0012] font-bold font-Poppins mb-2";
     contentWrapper.appendChild(countDownElement);
 
     /* Count down logic */
@@ -108,4 +193,6 @@ function renderUserListing(listings) {
     mainContainer.appendChild(card);
   });
 }
+
+fetchCarouselListings();
 fetchListings();
