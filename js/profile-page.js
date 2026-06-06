@@ -177,10 +177,14 @@ function buildProfileLayout() {
   /* Creating a wrapper for the content of the main content */
   const profileWrapper = document.createElement("div");
   profileWrapper.className = "flex flex-col items-center";
+  profileWrapper.setAttribute("role", "region");
+  profileWrapper.setAttribute("aria-label", "User profile page content");
 
   /* Creating a section for the content */
   const profileSection = document.createElement("section");
   profileSection.className = "w-full";
+  profileSection.setAttribute("role", "region");
+  profileSection.setAttribute("aria-labelledby", "profile-username");
 
   /* Creating a container for the banner and put the banner inside the container */
   const bannerContainer = document.createElement("div");
@@ -189,7 +193,7 @@ function buildProfileLayout() {
   const bannerImg = document.createElement("img");
   bannerImg.id = "profile-banner";
   bannerImg.className = "w-full object-cover";
-  bannerImg.alt = "profile-banner";
+  bannerImg.alt = "User profile banner image";
 
   /* appending the bannerImg to the bannerContainer then appending the container to the profileSection */
   bannerContainer.appendChild(bannerImg);
@@ -198,6 +202,8 @@ function buildProfileLayout() {
   /* Creating a container for the top section of the section for the profile picture, username, bio, profile settings, and credit available */
   const topSectionContainer = document.createElement("div");
   topSectionContainer.className = "flex flex-row items-start bg-[#]";
+  topSectionContainer.setAttribute("role", "region");
+  topSectionContainer.setAttribute("aria-label", "Profile header");
 
   /* Creating the profile picture element inside a wrapper for placement */
   const profileAvatarWrapper = document.createElement("div");
@@ -228,6 +234,7 @@ function buildProfileLayout() {
   bio.className =
     "flex m-auto text-[1rem] text-center font-semibold font-Poppins text-black resize-none w-[40%] h-35 hover:cursor-default border-none outline-none focus:ring-0 overflow-hidden";
   bio.id = "profile-bio";
+  bio.setAttribute("aria-label", "User biography");
   textAndButtonWrapper.appendChild(bio);
 
   /* Creating the element for the profile Credit Available */
@@ -247,6 +254,9 @@ function buildProfileLayout() {
   profileSettingsButton.className =
     "border-2 border-[#FACC15] rounded-4xl text-white text-[1.25rem] font-Poppins font-bold bg-[#059669] hover:bg-[#04875F] cursor-pointer p-2 mr-8 mb-2";
   profileSettingsButton.id = "profile-settings-button";
+  profileSettingsButton.setAttribute("aria-haspopup", "true");
+  profileSettingsButton.setAttribute("aria-expanded", "false");
+  profileSettingsButton.setAttribute("aria-controls", "profile-settings-menu");
   textAndButtonWrapper.appendChild(profileSettingsButton);
 
   buttonWrapper.appendChild(profileSettingsButton);
@@ -257,6 +267,8 @@ function buildProfileLayout() {
   profileSettingsMenu.id = "profile-settings-menu";
   profileSettingsMenu.className =
     "flex flex-col items-center text-center hidden w-full";
+  profileSettingsMenu.setAttribute("role", "menu");
+  profileSettingsMenu.setAttribute("aria-label", "Profile settings menu");
 
   /* Creating the change profile picture button inside the settings menu */
   const changeAvatarButton = document.createElement("button");
@@ -264,6 +276,7 @@ function buildProfileLayout() {
   changeAvatarButton.textContent = "CHANGE PROFILE PICTURE";
   changeAvatarButton.className =
     "border-2 border-[#FACC15] rounded-4xl text-white text-[1.25rem] font-Poppins font-bold bg-[#059669] hover:bg-[#04875F] cursor-pointer mb-2 py-3 w-1/2";
+  changeAvatarButton.setAttribute("aria-label", "Change profile picture");
   profileSettingsMenu.appendChild(changeAvatarButton);
 
   /* Creating the change profile banner button inside the settings menu */
@@ -272,6 +285,7 @@ function buildProfileLayout() {
   changeBannerButton.textContent = "CHANGE PROFILE BANNER";
   changeBannerButton.className =
     "border-2 border-[#FACC15] rounded-4xl text-white text-[1.25rem] font-Poppins font-bold bg-[#059669] hover:bg-[#04875F] cursor-pointer mb-2 py-3 w-1/2";
+  changeBannerButton.setAttribute("aria-label", "Change profile banner");
   profileSettingsMenu.appendChild(changeBannerButton);
 
   /* Creating the change profile bio button inside the settings menu */
@@ -280,6 +294,7 @@ function buildProfileLayout() {
   changeBioButton.textContent = "CHANGE BIO";
   changeBioButton.className =
     "border-2 border-[#FACC15] rounded-4xl text-white text-[1.25rem] font-Poppins font-bold bg-[#059669] hover:bg-[#04875F] cursor-pointer mb-2 py-3 w-1/2";
+  changeBioButton.setAttribute("aria-label", "Change biography");
   profileSettingsMenu.appendChild(changeBioButton);
 
   /* Appending everything together with the correct Parent/child relation */
@@ -297,6 +312,8 @@ function buildProfileLayout() {
   const createdListingSection = document.createElement("section");
   createdListingSection.className =
     "bg-[#1E3A8A] border-3 border-[#FACC15] rounded-4xl overflow-hidden w-[48%]";
+  createdListingSection.setAttribute("role", "region");
+  createdListingSection.setAttribute("aria-labelledby", "listing-section-title");
 
   /* creating listed item section box  */
   const listingItemContainer = document.createElement("div");
@@ -304,6 +321,7 @@ function buildProfileLayout() {
 
   /* Creating the title for the section box. */
   const sectionTitle = document.createElement("h1");
+  sectionTitle.id = "listing-section-title";
   sectionTitle.textContent = "LISTINGS";
   sectionTitle.className =
     "font-Poppins font-bold text-[1.5rem] text-[#FACC15] mt-2";
@@ -324,6 +342,8 @@ function buildProfileLayout() {
   const bidsSection = document.createElement("section");
   bidsSection.className =
     "bg-[#1E3A8A] border-3 border-[#FACC15] rounded-4xl overflow-hidden w-[48%]";
+  bidsSection.setAttribute("role", "region");
+  bidsSection.setAttribute("aria-labelledby", "bids-section-title");
 
   /* creating listed item section box  */
   const bidsItemContainer = document.createElement("div");
@@ -331,6 +351,7 @@ function buildProfileLayout() {
 
   /* Creating the title for the section box. */
   const bidsSectionTitle = document.createElement("h1");
+  bidsSectionTitle.id = "bids-section-title";
   bidsSectionTitle.textContent = "BIDS";
   bidsSectionTitle.className =
     "font-Poppins font-bold text-[1.5rem] text-[#FACC15] mt-2";
@@ -423,6 +444,8 @@ function inlineEditListing(listing, rowElement) {
   /* Creating the form. */
   const inlineEditForm = document.createElement("div");
   inlineEditForm.className = "inline-edit-form flex flex-col";
+  inlineEditForm.setAttribute("role", "form");
+  inlineEditForm.setAttribute("aria-label", "Edit listing form");
   inlineEditForm.addEventListener("click", (e) => e.stopPropagation());
 
   /* title label and input in the form */
@@ -438,6 +461,7 @@ function inlineEditListing(listing, rowElement) {
   editFormTitleInput.id = "edit-title";
   editFormTitleInput.className = "border-3 border-[#FACC15] p-2 rounded-4xl";
   editFormTitleInput.placeholder = "Listing Title";
+  editFormTitleInput.setAttribute("aria-label", "Listing title");
   editFormTitleInput.value = listing.title || "No title yet";
   inlineEditForm.appendChild(editFormTitleInput);
 
@@ -455,6 +479,7 @@ function inlineEditListing(listing, rowElement) {
   editFormDescriptionTextarea.className =
     "border-3 border-[#FACC15] p-2 rounded-4xl";
   editFormDescriptionTextarea.placeholder = "Listing description";
+  editFormDescriptionTextarea.setAttribute("aria-label", "Listing description");
   editFormDescriptionTextarea.value =
     listing.description || "No description yet";
   inlineEditForm.appendChild(editFormDescriptionTextarea);
@@ -472,6 +497,7 @@ function inlineEditListing(listing, rowElement) {
   editFormMediaInput.id = "edit-media";
   editFormMediaInput.className = "border-3 border-[#FACC15] p-2 rounded-4xl";
   editFormMediaInput.placeholder = "Only Public URL";
+  editFormMediaInput.setAttribute("aria-label", "Listing media URL");
   editFormMediaInput.value =
     (listing.media && listing.media[0] && listing.media[0].url) ||
     "No Media found";
@@ -495,6 +521,7 @@ function inlineEditListing(listing, rowElement) {
   editFormSaveButton.textContent = "SAVE CHANGES";
   editFormSaveButton.className =
     "font-bold font-Poppins text-[1.25rem] text-white text-center m-2 bg-[#059669] hover:bg-[#04875F] border-2 border-[#FACC15] rounded-4xl cursor-pointer";
+  editFormSaveButton.setAttribute("aria-label", "Save listing changes");
   editFormActionButtonsContainer.appendChild(editFormSaveButton);
 
   /* Cancel button */
@@ -503,6 +530,7 @@ function inlineEditListing(listing, rowElement) {
   editFormCancelButton.textContent = "CANCEL CHANGES";
   editFormCancelButton.className =
     "font-bold font-Poppins text-[1.25rem] text-center m-2 bg-[#FF0004] hover:bg-[#D40003] border-2 border-[#FACC15] rounded-4xl cursor-pointer";
+  editFormCancelButton.setAttribute("aria-label", "Cancel listing edits");
   editFormActionButtonsContainer.appendChild(editFormCancelButton);
 
   inlineEditForm.appendChild(editFormActionButtonsContainer);
@@ -557,10 +585,20 @@ function createListingRow(listing, withActions = false) {
   const mainRow = document.createElement("div");
   mainRow.className =
     "flex flex-row items-center justify-between border-3 border-[#FACC15] rounded-4xl p-2 bg-[#E4E3E0] cursor-pointer hover:bg-blue-300 h-full";
-
+  mainRow.setAttribute("role", "button");
+  mainRow.setAttribute(
+    "aria-label",
+    `View listing details for ${listing.title || "auction item"}`
+  );
+  mainRow.tabIndex = 0;
   mainRow.addEventListener("click", () => {
     if (mainRow.querySelector(".inline-edit-form")) return;
     window.location.href = `/html/item-specific.html?id=${listing.id}`;
+  });
+  mainRow.addEventListener("keydown", (event) => {
+    if ((event.key === "Enter" || event.key === " ") && !mainRow.querySelector(".inline-edit-form")) {
+      window.location.href = `/html/item-specific.html?id=${listing.id}`;
+    }
   });
 
   /* Listing title for the profile */
@@ -578,12 +616,14 @@ function createListingRow(listing, withActions = false) {
     /* EDIT button */
     const editButton = document.createElement("button");
     editButton.textContent = "EDIT";
+    editButton.setAttribute("aria-label", `Edit listing ${listing.title}`);
     editButton.className =
       "bg-[#4B0596] hover:bg-[#6D34A9] border-2 border-[#FACC15] rounded-4xl text-center text-[1.25rem] text-white cursor-pointer px-2 max-md:text-[1rem] max-md:px-1";
 
     /* DELETE button */
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "DELETE";
+    deleteButton.setAttribute("aria-label", `Delete listing ${listing.title}`);
     deleteButton.className =
       "bg-[#FF0004] hover:bg-[#D40003] border-2 border-[#FACC15] rounded-4xl text-center text-[1.25rem] text-white cursor-pointer px-2 max-md:text-[1rem] max-md:px-1";
 

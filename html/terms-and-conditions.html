@@ -28,34 +28,35 @@
 
 <body class="bg-[#E4E3E0] min-h-screen flex flex-col">
   <!-- header start -->
-  <header>
-    <nav class="border-3 border-[#FACC15] bg-[#1E3A8A] flex flex-row items-center w-full ">
+  <header role="banner">
+    <nav class="border-3 border-[#FACC15] bg-[#1E3A8A] flex flex-row items-center w-full " aria-label="Main navigation">
       <!-- clickable logo to take the user back to home page. -->
-      <a href="../index.html"><button class="bg-transparent cursor-pointer ml-2">
+      <a href="../index.html"><button aria-label="Go to homepage" class="bg-transparent cursor-pointer ml-2">
           <img src="https://i.imghippo.com/files/lwZc1015Zi.png"
             alt="BidSmart logo featuring a gold gavel icon on a square background next to the word “BidSmart” in gold text, all on a transparent background."
             id="main-logo" class="max-md:w-25 max-md:h-16 md:w-60 md:h-25" /></button></a>
       <!-- the div for the search bar and the new listing icon -->
       <!-- search bar -->
       <div class="flex m-auto w-full items-center justify-center">
-        <input id="search" type="search" placeholder="SEARCH"
+        <input id="search" type="search" placeholder="SEARCH" aria-label="Search listings"
           class="border-3 border-[#FACC15] rounded-4xl text-center placeholder:text-[#FFFFFF] max-md:w-20 max-md:h-10 md:w-93 md:h-15 focus:bg-white" />
         <!-- the new listing clickable button for creating a new listing -->
         <button
+          aria-label="Create a new listing"
           class="cursor-pointer bg-[url('https://i.imghippo.com/files/GCjf7875el.png')] mr-4 max-md:w-12 max-md:h-12 w-16 h-16 z-100 bg-center bg-cover bg-no-repeat hover:bg-[url('https://i.imghippo.com/files/BQqD1711yc.png')] hover:bg-center hover:bg-cover hover:bg-no-repeat"
           id="new-post-button"></button>
       </div>
       <!-- the div for profile page and hamburger menu -->
       <div class="flex justify-end">
         <!-- the button for profile page -->
-        <a href="../html/profile-page.html"><button>
+        <a href="../html/profile-page.html"><button aria-label="Open user profile">
             <img src="https://i.imghippo.com/files/Bnxk8228eY.png"
               alt="Minimalist white avatar silhouette icon featuring a faceless head and shoulders on a solid yellow circular background, used for user profile placeholder, account image, or social media default avatar."
               class="max-md:w-8 max-md:h-8 max-md:mr-10 mr-12 md:h-16 md:w-16 cursor-pointer rounded-full border-3 border-[#FACC15]"
               id="profile-avatar" />
           </button></a>
         <!-- the hamburger menu button -->
-        <button>
+        <button aria-label="Toggle navigation menu" aria-controls="toggle-element-container" aria-expanded="false">
           <img src="https://i.imghippo.com/files/LKqc2461NZo.png"
             alt="Three horizontal, rounded rectangular lines stacked vertically on a black background, resembling a minimalistic menu icon. The tone is simple and modern."
             class="max-md:w-8 max-md:h-8 max-md:mr-8 max-md:ml-0 md:h-16 md:w-16 md:mr-12 cursor-pointer" id="hamburger-menu" />
@@ -67,15 +68,17 @@
   <!-- the div for all of the clickable menus, such as hamburger menu and new listing menu the content of the menus will be made dynamically with JS -->
   <div id="toggle-element-container"></div>
   <!-- the overall container for all of the main content of the page. -->
-  <main id="main-content-container" class="grow"></main>
+  <main id="main-content-container" class="grow" role="main" aria-label="Terms and conditions content"></main>
   <!-- footer with 3 clickable links that will take the user to different pages. with a trademark reminder at the bottom. -->
-  <footer class="border-3 border-[#FACC15] bg-[#1E3A8A] flex flex-col">
-    <div class="flex flex-col ml-4">
-      <a href="../index.html" class="text-white hover:border-b-3 hover:border-[#FACC15] w-fit mb-4 mt-2">HOME</a>
-      <a href="../html/contact.html" class="text-white hover:border-b-3 hover:border-[#FACC15] w-fit mb-4">CONTACT</a>
-      <a href="../html/terms-and-conditions.html"
-        class="text-white hover:border-b-3 hover:border-[#FACC15] w-fit mb-4">TERMS & CONDITIONS</a>
-    </div>
+  <footer class="border-3 border-[#FACC15] bg-[#1E3A8A] flex flex-col" role="contentinfo">
+    <nav aria-label="Footer navigation" role="navigation">
+      <div class="flex flex-col ml-4">
+        <a href="../index.html" class="text-white hover:border-b-3 hover:border-[#FACC15] w-fit mb-4 mt-2">HOME</a>
+        <a href="../html/contact.html" class="text-white hover:border-b-3 hover:border-[#FACC15] w-fit mb-4">CONTACT</a>
+        <a href="../html/terms-and-conditions.html"
+          class="text-white hover:border-b-3 hover:border-[#FACC15] w-fit mb-4">TERMS & CONDITIONS</a>
+      </div>
+    </nav>
     <p class="text-white m-auto">© Bidsmart all rights perserved</p>
   </footer>
   <!-- JS script linking -->

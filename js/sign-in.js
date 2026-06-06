@@ -6,10 +6,12 @@ const signInSection = document.createElement("section");
 signInSection.id = "sign-in-section";
 signInSection.className =
     "flex flex-col border-2 border-[#FACC15] rounded-4xl mt-6 bg-[#1E3A8A] w-[85%] m-auto";
+signInSection.setAttribute("role", "main");
 mainContainer.appendChild(signInSection);
 
 /* Creating a title for the sign in form */
 const signInTitle = document.createElement("h1");
+signInTitle.id = "sign-in-title";
 signInTitle.textContent = "SIGN IN";
 signInTitle.className =
     "text-[#FACC15] text-center text-[2rem] font-Poppins font-bold flex flex-col mt-4 mb-4";
@@ -19,6 +21,8 @@ signInSection.appendChild(signInTitle);
 const signInForm = document.createElement("form");
 signInForm.id = "sign-in-form";
 signInForm.className = "flex flex-row";
+signInForm.setAttribute("aria-labelledby", "sign-in-title");
+signInForm.setAttribute("aria-describedby", "error-message success-message");
 signInSection.appendChild(signInForm);
 
 /* Creating a div for the left side to have the company logo inside as the design file. */
@@ -46,6 +50,7 @@ function signInFields(labelText, id, type = "text", placeholder) {
 
     /* Form labels */
     const FormLabel = document.createElement("label");
+    FormLabel.htmlFor = id;
     FormLabel.textContent = labelText;
     FormLabel.className =
         "mb-1 font-Poppins font-semibold text-[1.25rem] text-[#FACC15]";
@@ -55,8 +60,15 @@ function signInFields(labelText, id, type = "text", placeholder) {
     formInput.id = id;
     formInput.type = type;
     formInput.placeholder = placeholder;
+    formInput.setAttribute("aria-required", "true");
     formInput.className =
         "w-[75%] border-3 border-[#FACC15] rounded-4xl py-1 bg-[#E4E3E0] placeholder:text-[#5D5B5B] font-semibold text-black px-3 focus:text-[1.25rem]";
+
+    if (type === "email") {
+        formInput.setAttribute("autocomplete", "email");
+    } else if (type === "password") {
+        formInput.setAttribute("autocomplete", "current-password");
+    }
 
     /* appending the form label & input to the container */
     container.appendChild(FormLabel);
@@ -76,18 +88,24 @@ FormContainerRight.appendChild(
 /* Adding Success & error messages to the form */
 /* Error messages */
 const errorMessage = document.createElement("p");
+errorMessage.id = "error-message";
 errorMessage.className = "mt-2 text-[1rem] text-[#FF0004]";
+errorMessage.setAttribute("role", "alert");
+errorMessage.setAttribute("aria-live", "assertive");
 FormContainerRight.appendChild(errorMessage);
 
 /* success messages */
 const successMessage = document.createElement("p");
+successMessage.id = "success-message";
 successMessage.className = "mt-2 text-[1rem] text-[#FACC15]";
+successMessage.setAttribute("aria-live", "polite");
 FormContainerRight.appendChild(successMessage);
 
 /* Adding a submit button for the form */
 const submitButton = document.createElement("button");
 submitButton.type = "submit";
 submitButton.setAttribute("form", "sign-in-form");
+submitButton.setAttribute("aria-label", "Log in to BidSmart account");
 submitButton.textContent = "LOG IN";
 submitButton.className =
     "border-2 border-[#FACC15] rounded-4xl text-white text-[1.5rem] font-Poppins font-bold px-3 bg-[#059669] hover:bg-[#04875F] cursor-pointer lg:w-[10rem] w-[8rem] m-auto mb-4";

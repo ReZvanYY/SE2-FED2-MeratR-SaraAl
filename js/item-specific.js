@@ -7,6 +7,7 @@ const mainContainer = document.getElementById("main-content-container");
 /* Creating an element for error messages */
 const errorMessage = document.createElement("p");
 errorMessage.className = "mt-4 text-[1rem] text-[#FF0004]";
+errorMessage.setAttribute("role", "alert");
 mainContainer.appendChild(errorMessage);
 
 /* searching the params for the listing ID */
@@ -62,6 +63,8 @@ function renderItemPage(listing) {
   const layoutWrapper = document.createElement("section");
   layoutWrapper.className =
     "max-w-6xl mx-auto flex flex-col lg:flex-row gap-6 p-4";
+  layoutWrapper.setAttribute("role", "region");
+  layoutWrapper.setAttribute("aria-label", "Auction item details and bidding information");
   /* A section div for the left column items for placement */
   const leftColumn = document.createElement("section");
   leftColumn.className = "flex flex-col gap-4";
@@ -79,7 +82,7 @@ function renderItemPage(listing) {
   const itemImage = document.createElement("img");
   itemImage.src =
     listing.media?.[0]?.url || "https://i.imghippo.com/files/Ktl1265wvk.png";
-  itemImage.alt = listing.media?.[0]?.alt || listing.title;
+  itemImage.alt = listing.media?.[0]?.alt || listing.title || "Auction item image";
   itemImage.className = "rounded-4xl w-full h-full object-contain";
 
   imageWrapper.appendChild(itemImage);
@@ -88,9 +91,12 @@ function renderItemPage(listing) {
   const detailsWrapper = document.createElement("div");
   detailsWrapper.className =
     "border-3 border-[#FACC15] bg-[#1E3A8A] rounded-4xl text-white flex flex-col gap-4 text-center p-4 h-full";
+  detailsWrapper.setAttribute("role", "region");
+  detailsWrapper.setAttribute("aria-labelledby", "auction-item-title");
 
   /* Creating the title of the listing */
   const auctionItemTitle = document.createElement("h1");
+  auctionItemTitle.id = "auction-item-title";
   auctionItemTitle.textContent = listing.title;
   auctionItemTitle.className =
     "text-[#FACC15] text-[2rem] text-center font-semibold";
@@ -116,6 +122,8 @@ function renderItemPage(listing) {
   /* Creating the end time, the countdown */
   const auctionItemEndTime = document.createElement("p");
   auctionItemEndTime.className = "text-[#FF0012] font-bold";
+  auctionItemEndTime.setAttribute("aria-live", "polite");
+  auctionItemEndTime.setAttribute("aria-label", "Time remaining for auction");
 
   /* Countdown function for the end time */
   function countDownTimer() {
@@ -154,21 +162,26 @@ function renderItemPage(listing) {
     "flex flex-row gap-2 items-center justify-center";
 
   /* Creating a label for the input field */
-  const bidLabel = document.createElement("p");
+  const bidLabel = document.createElement("label");
   bidLabel.textContent = "Bid on this item!";
+  bidLabel.htmlFor = "bid-amount";
   bidLabel.className = "text-md font-bold font-Poppins";
 
   /* Creating the bid input */
   const bidInput = document.createElement("input");
+  bidInput.id = "bid-amount";
   bidInput.type = "number";
   bidInput.placeholder = `Minimum bid: ${highestBid + 1}`;
   bidInput.className =
     "rounded-4xl w-fit text-center p-2 text-black w-40 bg-[#E4E3E0] placeholder:text-[#5D5B5B] border-3 border-[#FACC15]";
+  bidInput.setAttribute("aria-label", `Enter a bid higher than ${highestBid}`);
   /* Creating the bid button and adding a eventlistener to make sure that the function are working. */
   const bidButton = document.createElement("button");
+  bidButton.type = "button";
   bidButton.textContent = "BID";
   bidButton.className =
     "mt-2 mb-4 border-3 border-[#FACC15] text-center m-auto w-fit px-10 py-2 rounded-4xl bg-[#059669] hover:bg-[#04875F] cursor-pointer";
+  bidButton.setAttribute("aria-label", "Submit bid");
   /* The addEventListener that take the value of the users input in the bidInput field, and submits the input */
   bidButton.addEventListener("click", () => {
     const amount = Number(bidInput.value);
@@ -192,8 +205,11 @@ function renderItemPage(listing) {
   const bidHistory = document.createElement("aside");
   bidHistory.className =
     "border-3 border-[#FACC15] bg-[#1E3A8A] rounded-4xl p-4 text-white w-full";
+  bidHistory.setAttribute("role", "complementary");
+  bidHistory.setAttribute("aria-labelledby", "bid-history-title");
   /* the h2 title of the box the word (BID HISTROY) */
   const historyTitle = document.createElement("h2");
+  historyTitle.id = "bid-history-title";
   historyTitle.textContent = "BID HISTORY";
   historyTitle.className = "text-[#FACC15] font-semibold mb-2";
 

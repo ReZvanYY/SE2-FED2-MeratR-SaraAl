@@ -25,12 +25,25 @@ const dropDownArea = document.getElementById("toggle-element-container");
 const hamburgerMenuButton = document.getElementById("hamburger-menu");
 const newPostButton = document.getElementById("new-post-button");
 
+if (hamburgerMenuButton) {
+  hamburgerMenuButton.setAttribute("aria-controls", "hamburger-menu-content");
+  hamburgerMenuButton.setAttribute("aria-expanded", "false");
+  hamburgerMenuButton.setAttribute("aria-label", "Toggle navigation menu");
+}
+if (newPostButton) {
+  newPostButton.setAttribute("aria-controls", "create-new-listing-menu");
+  newPostButton.setAttribute("aria-expanded", "false");
+  newPostButton.setAttribute("aria-label", "Create new listing");
+}
+
 /* creating a div inside the toggle menu container to display the hamburger menu content inside. */
 const hamburgerMenuToggle = document.createElement("div");
 hamburgerMenuToggle.id = "hamburger-menu-content";
 hamburgerMenuToggle.className =
   "flex flex-col border-b-3 border-r-3 border-l-3 border-[#FACC15] bg-[#1E3A8A] items-center m-auto";
 hamburgerMenuToggle.style.display = "none";
+hamburgerMenuToggle.setAttribute("role", "menu");
+hamburgerMenuToggle.setAttribute("aria-label", "Navigation menu");
 dropDownArea.appendChild(hamburgerMenuToggle);
 
 /* Same as hamburger menu, creating a div for the new listing menu */
@@ -39,6 +52,9 @@ createNewListingMenu.id = "create-new-listing-menu";
 createNewListingMenu.className =
   "flex flex-col border-b-3 border-r-3 border-l-3 border-[#FACC15] bg-[#1E3A8A] items-center m-auto";
 createNewListingMenu.style.display = "none";
+createNewListingMenu.setAttribute("role", "dialog");
+createNewListingMenu.setAttribute("aria-label", "Create new listing form");
+createNewListingMenu.setAttribute("aria-modal", "false");
 dropDownArea.appendChild(createNewListingMenu);
 
 /* by default the menu vill be disabled or not visual. */
@@ -180,6 +196,8 @@ function renderCreateListingMenu() {
   /* A wrapper to keep all of the elements grouped. */
   const newListingWrapper = document.createElement("div");
   newListingWrapper.className = "flex flex-col w-[75%]";
+  newListingWrapper.setAttribute("role", "form");
+  newListingWrapper.setAttribute("aria-label", "Create listing form");
 
   /* The listing needs to have; 
     -Title
@@ -199,6 +217,7 @@ function renderCreateListingMenu() {
   titleInput.placeholder = "Listing Title";
   titleInput.className =
     "placeholder:text-[#424242] text-black bg-[#D9D9D9] border-3 border-[#FACC15] rounded-4xl p-2";
+  titleInput.setAttribute("aria-label", "Listing title");
   newListingWrapper.appendChild(titleInput);
 
   /* Description */
@@ -212,6 +231,7 @@ function renderCreateListingMenu() {
   descriptionInput.placeholder = "Listing description";
   descriptionInput.className =
     "placeholder:text-[#424242] text-black bg-[#D9D9D9] border-3 border-[#FACC15] rounded-4xl p-2";
+  descriptionInput.setAttribute("aria-label", "Listing description");
   newListingWrapper.appendChild(descriptionInput);
 
   /* Media images/photos */
@@ -229,6 +249,7 @@ function renderCreateListingMenu() {
   mediaInput.placeholder = "Public URL Only";
   mediaInput.className =
     "placeholder:text-[#424242] text-black bg-[#D9D9D9] border-3 border-[#FACC15] rounded-4xl p-2";
+  mediaInput.setAttribute("aria-label", "Listing media URL");
   mediaWrapper.appendChild(mediaInput);
 
   /* info text to help the user get the public url needed for their listing */
@@ -242,6 +263,7 @@ function renderCreateListingMenu() {
   /* The button that will add more media files to the listing. */
   const plussOneMediaButton = document.createElement("button");
   plussOneMediaButton.textContent = "+1";
+  plussOneMediaButton.setAttribute("aria-label", "Add another media URL field");
   plussOneMediaButton.className =
     "border-2 border-[#FACC15] rounded-3xl text-white text-[1.5rem] font-Poppins font-bold bg-[#059669] hover:bg-[#04875F] cursor-pointer m-auto mb-4 w-16 h-8";
 
@@ -266,11 +288,13 @@ function renderCreateListingMenu() {
   deadlineInput.type = "datetime-local";
   deadlineInput.className =
     "placeholder:text-[#424242] text-black bg-[#D9D9D9] border-3 border-[#FACC15] rounded-4xl p-2 mb-4";
+  deadlineInput.setAttribute("aria-label", "Listing deadline date and time");
   newListingWrapper.appendChild(deadlineInput);
 
   /* Publish listing button */
   const publishButton = document.createElement("button");
   publishButton.textContent = "PUBLISH LISTING";
+  publishButton.setAttribute("aria-label", "Publish listing");
   publishButton.className =
     "border-2 border-[#FACC15] rounded-4xl text-white text-[1.5rem] font-Poppins font-bold bg-[#059669] hover:bg-[#04875F] cursor-pointer m-auto mb-4 p-2";
 
@@ -350,24 +374,32 @@ newPostButton.addEventListener("click", (event) => {
 function openMenu() {
   hamburgerMenuToggle.style.display = "flex";
   hamburgerMenuButton.src = "https://i.imghippo.com/files/oM2664JM.png";
+  hamburgerMenuButton.setAttribute("aria-expanded", "true");
   hamburgerMenuToggleVisibility = true;
 }
 /* The function for closing the toggle menu */
 function closeMenu() {
   hamburgerMenuToggle.style.display = "none";
   hamburgerMenuButton.src = "https://i.imghippo.com/files/LKqc2461NZo.png";
+  hamburgerMenuButton.setAttribute("aria-expanded", "false");
   hamburgerMenuToggleVisibility = false;
 }
 
 /* function for opening the toggle menu for creating listing */
 function openCreateListingMenu() {
   createNewListingMenu.style.display = "flex";
+  if (newPostButton) {
+    newPostButton.setAttribute("aria-expanded", "true");
+  }
   createNewListingVisibility = true;
 }
 
 /* function for closing the toggle menu for creating listing */
 function closeCreateListingMenu() {
   createNewListingMenu.style.display = "none";
+  if (newPostButton) {
+    newPostButton.setAttribute("aria-expanded", "false");
+  }
   createNewListingVisibility = false;
 }
 /* Closing function when clicked outside of the border of the element */
@@ -388,6 +420,9 @@ if (!searchResultContainer && dropDownArea) {
   searchResultContainer = document.createElement("div");
   searchResultContainer.id = "search-result";
   searchResultContainer.className = "";
+  searchResultContainer.setAttribute("role", "region");
+  searchResultContainer.setAttribute("aria-live", "polite");
+  searchResultContainer.setAttribute("aria-label", "Search results");
   dropDownArea.appendChild(searchResultContainer);
 }
 async function searchListings(query) {
@@ -465,6 +500,9 @@ function renderSearchResults(listings, users) {
       const searchCard = document.createElement("article");
       searchCard.className =
         "flex flex-row text-[#FACC15] text-[1.1rem] text-left font-semibold font-Poppins border-3 border-[#FACC15] rounded-4xl bg-gray-300 hover:bg-[#1E3A8A] cursor-pointer";
+      searchCard.setAttribute("role", "button");
+      searchCard.tabIndex = 0;
+      searchCard.setAttribute("aria-label", `Open listing ${listing.title || "untitled"}`);
 
       const searchTitle = document.createElement("h3");
       searchTitle.textContent = listing.title || "Untitled Listing";
@@ -487,6 +525,11 @@ function renderSearchResults(listings, users) {
       searchCard.onclick = () => {
         window.location.href = `/html/item-specific.html?id=${listing.id}`;
       };
+      searchCard.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          window.location.href = `/html/item-specific.html?id=${listing.id}`;
+        }
+      });
       searchResultContainer.appendChild(searchCard);
     });
   }
@@ -495,6 +538,12 @@ function renderSearchResults(listings, users) {
       const userCard = document.createElement("article");
       userCard.className =
         "flex flex-row text-[#FACC15] text-[1.1rem] text-left font-semibold font-Poppins border-3 border-[#FACC15] rounded-4xl bg-gray-300 hover:bg-[#1E3A8A] cursor-pointer";
+      userCard.setAttribute("role", "button");
+      userCard.tabIndex = 0;
+      userCard.setAttribute(
+        "aria-label",
+        `Open profile for ${user.name || "unknown user"}`
+      );
 
       const userInfoContainer = document.createElement("div");
       userInfoContainer.className = "flex flex-row";
@@ -520,6 +569,12 @@ function renderSearchResults(listings, users) {
         window.location.href = `/html/profile-page.html?name=${encodeURIComponent(
           user.name)}`;
       };
+      userCard.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          window.location.href = `/html/profile-page.html?name=${encodeURIComponent(
+            user.name)}`;
+        }
+      });
       searchResultContainer.appendChild(userCard);
     });
   }

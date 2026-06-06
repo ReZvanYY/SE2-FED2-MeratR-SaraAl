@@ -6,14 +6,17 @@ mainContainer.innerHTML = "";
 const wrapper = document.createElement("div");
 wrapper.className =
   "flex flex-col m-auto border-3 border-[#FACC15] bg-[#1E3A8A] w-[80%] mt-4 mb-4 p-4";
+wrapper.setAttribute("role", "main");
 mainContainer.appendChild(wrapper);
 
 /* Creating the h1 title for the page. */
 const pageTitle = document.createElement("h1");
+pageTitle.id = "terms-and-conditions-title";
 pageTitle.textContent = "TERMS AND CONDITIONS";
 pageTitle.className =
   "m-auto text-[2rem] text-[#FACC15] font-Poppins font-bold";
 wrapper.appendChild(pageTitle);
+wrapper.setAttribute("aria-labelledby", "terms-and-conditions-title");
 
 const accordionWrapper = document.createElement("div");
 accordionWrapper.className ="w-full";
@@ -159,10 +162,12 @@ document.addEventListener("DOMContentLoaded", function () {
     box.className = "";
 
     const toggleButton = document.createElement("button");
+    toggleButton.type = "button";
     toggleButton.className =
       "accordion-header flex justify-between items-center w-full p-4 text-left font-semibold text-[#FACC15] hover:bg-[#3451A4] transition duration-150 ease-in-out";
     toggleButton.innerHTML = item.title;
     toggleButton.setAttribute("data-active", "false");
+    toggleButton.setAttribute("aria-expanded", "false");
 
     const iconSpan = document.createElement("span");
     iconSpan.className =
@@ -171,14 +176,20 @@ document.addEventListener("DOMContentLoaded", function () {
     toggleButton.appendChild(iconSpan);
 
     const contentDiv = document.createElement("div");
+    contentDiv.id = `accordion-content-${i}`;
     contentDiv.className =
       "accordion-content bg-[#1E3A8A] text-white transition-all duration-300 ease-in-out overflow-hidden max-h-0";
+    contentDiv.setAttribute("role", "region");
+    contentDiv.setAttribute("aria-labelledby", `accordion-header-${i}`);
+    contentDiv.setAttribute("aria-hidden", "true");
 
     const innerContent = document.createElement("div");
     innerContent.className = "prose max-w-none text-white p-4 pt-0";
     innerContent.innerHTML = item.content;
     contentDiv.appendChild(innerContent);
 
+    toggleButton.id = `accordion-header-${i}`;
+    toggleButton.setAttribute("aria-controls", `accordion-content-${i}`);
     box.appendChild(toggleButton);
     box.appendChild(contentDiv);
     container.appendChild(box);
@@ -198,7 +209,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         h.classList.remove("bg-[#3451A4]");
         h.setAttribute("data-active", "false");
+        h.setAttribute("aria-expanded", "false");
         otherContent.style.maxHeight = null;
+        otherContent.setAttribute("aria-hidden", "true");
         otherIcon.style.transform = "rotate(0deg)";
 
         h.parentElement.classList.remove("rounded-b-none");
@@ -207,8 +220,10 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!wasActive) {
         this.classList.add("bg-[#3451A4]");
         this.setAttribute("data-active", "true");
+        this.setAttribute("aria-expanded", "true");
 
         content.style.maxHeight = content.scrollHeight + "px";
+        content.setAttribute("aria-hidden", "false");
         icon.style.transform = "rotate(45deg)";
 
         this.parentElement.classList.add("rounded-b-none");

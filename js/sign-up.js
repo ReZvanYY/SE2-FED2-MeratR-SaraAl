@@ -6,10 +6,12 @@ const registerSection = document.createElement("section");
 registerSection.id = "sign-up-section";
 registerSection.className =
     "flex flex-col border-2 border-[#FACC15] rounded-4xl mt-6 bg-[#1E3A8A] w-[85%] m-auto";
+registerSection.setAttribute("role", "main");
 mainContainer.appendChild(registerSection);
 
 /* Creating a title for the register form */
 const registerTitle = document.createElement("h1");
+registerTitle.id = "sign-up-title";
 registerTitle.textContent = "SIGN UP";
 registerTitle.className =
     "text-[#FACC15] text-center text-[2rem] font-Poppins font-bold flex flex-col mt-4 mb-4";
@@ -19,6 +21,8 @@ registerSection.appendChild(registerTitle);
 const registerForm = document.createElement("form");
 registerForm.id = "sign-up-form";
 registerForm.className = "flex flex-row";
+registerForm.setAttribute("aria-labelledby", "sign-up-title");
+registerForm.setAttribute("aria-describedby", "error-message success-message");
 registerSection.appendChild(registerForm);
 
 /* Creating a div for the left side to have the company logo inside as the design file. */
@@ -44,6 +48,7 @@ function registerFields(labelText, id, type = "text", placeholder) {
     container.className = "mb-3 flex flex-col";
     /* Form labels */
     const FormLabel = document.createElement("label");
+    FormLabel.htmlFor = id;
     FormLabel.textContent = labelText;
     FormLabel.className =
         "mb-1 font-Poppins font-semibold text-[1.25rem] text-[#FACC15]";
@@ -52,8 +57,14 @@ function registerFields(labelText, id, type = "text", placeholder) {
     formInput.id = id;
     formInput.type = type;
     formInput.placeholder = placeholder;
+    formInput.setAttribute("aria-required", "true");
     formInput.className =
         "w-[75%] border-3 border-[#FACC15] rounded-4xl py-1 bg-[#E4E3E0] placeholder:text-[#5D5B5B] font-semibold text-black px-3 focus:text-[1.25rem]";
+    if (type === "email") {
+        formInput.setAttribute("autocomplete", "email");
+    } else if (type === "password") {
+        formInput.setAttribute("autocomplete", id === "confirm-password" ? "new-password" : "new-password");
+    }
     /* appending the form label & input to the container */
     container.appendChild(FormLabel);
     container.appendChild(formInput);
@@ -79,18 +90,24 @@ FormContainerRight.appendChild(
 /* Adding Success & error messages to the form */
 /* Error messages */
 const errorMessage = document.createElement("p");
+errorMessage.id = "error-message";
 errorMessage.className = "mt-2 text-[1rem] text-[#FF0004]";
+errorMessage.setAttribute("role", "alert");
+errorMessage.setAttribute("aria-live", "assertive");
 FormContainerRight.appendChild(errorMessage);
 
 /* success messages */
 const successMessage = document.createElement("p");
+successMessage.id = "success-message";
 successMessage.className = "mt-2 text-[1rem] text-[#FACC15]";
+successMessage.setAttribute("aria-live", "polite");
 FormContainerRight.appendChild(successMessage);
 
 /* Adding a submit button for the form */
 const submitButton = document.createElement("button");
 submitButton.type = "submit";
-submitButton.setAttribute("form", "sign-up-form")
+submitButton.setAttribute("form", "sign-up-form");
+submitButton.setAttribute("aria-label", "Create a new BidSmart account");
 submitButton.textContent = "REGISTER";
 submitButton.className =
     "border-2 border-[#FACC15] rounded-4xl text-white text-[1.5rem] font-Poppins font-bold px-3 bg-[#059669] hover:bg-[#04875F] cursor-pointer lg:w-[10rem] w-[8rem] m-auto mb-4";

@@ -57,14 +57,22 @@ function createCarouselCard(post) {
   const card = document.createElement("article");
   card.className =
     "w-[90%] flex flex-col rounded-4xl border-2 border-[#FACC15] p-4 cursor-pointer bg-[#1E3A8A] hover:scale-[1.02] transition-transform m-auto mt-4";
-
+  card.setAttribute("role", "button");
+  card.setAttribute("aria-label", `View details for ${post.title}`);
+  card.tabIndex = 0;
   card.addEventListener("click", () => {
     window.location.href = `/html/item-specific.html?id=${post.id}`;
   });
+  card.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      window.location.href = `/html/item-specific.html?id=${post.id}`;
+    }
+  });
 
   const img = document.createElement("img");
-  img.src = post.media?.[0]?.url || "https://i.imghippo.com/files/Ktl1265wvk.png";
-  img.alt = post.title;
+  img.src =
+    post.media?.[0]?.url || "https://i.imghippo.com/files/Ktl1265wvk.png";
+  img.alt = post.title || "Auction item image";
   img.className = "w-full h-[12rem] object-cover rounded-4xl";
   card.appendChild(img);
 
@@ -75,7 +83,10 @@ function createCarouselCard(post) {
 
   /* Countdown timer */
   const countdown = document.createElement("p");
-  countdown.className = "text-[1.15rem] text-[#FF0012] font-bold text-center mt-1";
+  countdown.className =
+    "text-[1.15rem] text-[#FF0012] font-bold text-center mt-1";
+  countdown.setAttribute("aria-live", "polite");
+  countdown.setAttribute("aria-label", "Time remaining for auction");
   card.appendChild(countdown);
 
   function updateCountdown() {
@@ -129,14 +140,22 @@ function renderUserListing(listings) {
     const card = document.createElement("article");
     card.className =
       "w-full flex flex-col rounded-4xl p-2 border-2 border-[#FACC15] cursor-pointer hover:scale-[1.02] transition-transform bg-[#1E3A8A]";
+    card.setAttribute("role", "button");
+    card.setAttribute("aria-label", `View details for ${post.title}`);
+    card.tabIndex = 0;
     card.onclick = () => {
       window.location.href = `/html/item-specific.html?id=${post.id}`;
     };
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        window.location.href = `/html/item-specific.html?id=${post.id}`;
+      }
+    });
     /* creating the img of the cards */
     const listingImg = document.createElement("img");
     listingImg.src =
       post.media?.[0]?.url || "https://i.imghippo.com/files/Ktl1265wvk.png";
-    listingImg.alt = post.media?.[0]?.alt || post.title;
+    listingImg.alt = post.media?.[0]?.alt || post.title || "Auction item image";
     listingImg.className =
       "max-md:w-30 w-40 h-35 object-fit flex m-auto mt-2 rounded-4xl";
     card.appendChild(listingImg);
@@ -164,6 +183,8 @@ function renderUserListing(listings) {
     const countDownElement = document.createElement("p");
     countDownElement.className =
       "text-[1.15rem] text-[#FF0012] font-bold font-Poppins mb-2";
+    countDownElement.setAttribute("aria-live", "polite");
+    countDownElement.setAttribute("aria-label", "Time remaining for auction");
     contentWrapper.appendChild(countDownElement);
 
     /* Count down logic */
